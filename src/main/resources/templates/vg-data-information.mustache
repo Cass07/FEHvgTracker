@@ -1,0 +1,180 @@
+{{#round1StartNot}}
+    <h4>{{round1StartNot}}</h4>
+    <table id="currentTable" class = "table table-center">
+        <colgroup>
+            <col width = "50%">
+            <col width = "50%">
+        </colgroup>
+        <thead>
+        </thead>
+        <tbody>
+        <tr>
+            <td class = "team1"></td>
+            <td class = "team2"></td>
+        </tr>
+        <tr>
+            <td class = "team3"></td>
+            <td class = "team4"></td>
+        </tr>
+        <tr>
+            <td class = "team5"></td>
+            <td class = "team6"></td>
+        </tr>
+        <tr>
+            <td class = "team7"></td>
+            <td class = "team8"></td>
+        </tr>
+        </tbody>
+    </table>
+{{/round1StartNot}}
+
+
+{{#currentRoundVgTitle}}
+<h4>{{currentRoundVgTitle}}</h4>
+<table id="currentTable" class = "table table-center">
+    <colgroup>
+        <col width = "50%">
+        <col width = "50%">
+    </colgroup>
+    <thead>
+    </thead>
+    <tbody>
+{{#currentRoundVgdata}}
+    <tr>
+        <td class = "team{{team1Index}}"></td>
+        <td class = "team{{team2Index}}"></td>
+    </tr>
+    <tr class = "losing_{{losing}}">
+        <td class = "score">{{team1Score}}</td>
+        <td class = "score">{{team2Score}}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+        <a href = "{{customUri}}/vg/vgnum/{{vgNumber}}/round/{{roundNumber}}/tournum/{{tournamentIndex}}" target='_blank'>세부 데이터 보기</a>
+        </td>
+    </tr>
+{{/currentRoundVgdata}}
+{{^currentRoundVgdata}}
+    <tr>
+        <td colspan="2">진행중인 라운드가 없습니다.</td>
+    </tr>
+{{/currentRoundVgdata}}
+    </tbody>
+</table>
+
+<br><br>
+
+{{/currentRoundVgTitle}}
+
+
+{{#round3VgTitle}}
+<h4>{{round3VgTitle}}</h4>
+
+<table id="round3ResultTable" class = "table table-center">
+    <colgroup>
+        <col width = "50%">
+        <col width = "50%">
+    </colgroup>
+    <thead>
+    </thead>
+    <tbody>
+    {{#round3Vgdata}}
+        <tr>
+            <td class = "team{{team1Index}}"></td>
+            <td class = "team{{team2Index}}"></td>
+        </tr>
+        <tr class = "losing_{{losing}}">
+            <td class = "score">{{team1Score}}</td>
+            <td class = "score">{{team2Score}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href = "{{customUri}}/vg/vgnum/{{vgNumber}}/round/{{roundNumber}}/tournum/{{tournamentIndex}}" target='_blank'>세부 데이터 보기</a>
+            </td>
+        </tr>
+    {{/round3Vgdata}}
+    {{^round3Vgdata}}
+        <tr>
+            <td colspan="2">결과가 없습니다.</td>
+        </tr>
+    {{/round3Vgdata}}
+    </tbody>
+</table>
+<br>
+{{/round3VgTitle}}
+
+
+{{#round2VgTitle}}
+
+<h4>{{round2VgTitle}}</h4>
+
+<table id="round2ResultTable" class = "table table-center">
+    <colgroup>
+        <col width = "50%">
+        <col width = "50%">
+    </colgroup>
+    <thead>
+    </thead>
+    <tbody>
+    {{#round2Vgdata}}
+        <tr>
+            <td class = "team{{team1Index}}"></td>
+            <td class = "team{{team2Index}}"></td>
+        </tr>
+        <tr class = "losing_{{losing}}">
+            <td class = "score">{{team1Score}}</td>
+            <td class = "score">{{team2Score}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href = "{{customUri}}/vg/vgnum/{{vgNumber}}/round/{{roundNumber}}/tournum/{{tournamentIndex}}" target='_blank'>세부 데이터 보기</a>
+            </td>
+        </tr>
+    {{/round2Vgdata}}
+    {{^round2Vgdata}}
+        <tr>
+            <td colspan="2">결과가 없습니다.</td>
+        </tr>
+    {{/round2Vgdata}}
+    </tbody>
+</table>
+
+<br>
+{{/round2VgTitle}}
+
+
+{{#round1VgTitle}}
+<h4>{{round1VgTitle}}</h4>
+
+<table id="round2ResultTable" class = "table table-center">
+    <colgroup>
+        <col width = "50%">
+        <col width = "50%">
+    </colgroup>
+    <thead>
+    </thead>
+    <tbody>
+    {{#round1Vgdata}}
+        <tr>
+            <td class = "team{{team1Index}}"></td>
+            <td class = "team{{team2Index}}"></td>
+        </tr>
+        <tr class = "losing_{{losing}}">
+            <td class = "score">{{team1Score}}</td>
+            <td class = "score">{{team2Score}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href = "{{customUri}}/vg/vgnum/{{vgNumber}}/round/{{roundNumber}}/tournum/{{tournamentIndex}}" target='_blank'>세부 데이터 보기</a>
+            </td>
+        </tr>
+    {{/round1Vgdata}}
+    {{^round1Vgdata}}
+        <tr>
+            <td colspan="2">결과가 없습니다.</td>
+        </tr>
+    {{/round1Vgdata}}
+    </tbody>
+</table>
+
+{{/round1VgTitle}}
