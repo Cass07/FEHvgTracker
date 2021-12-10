@@ -11,7 +11,7 @@
  
 ## 기타
 JAVA (Springboot) 연습용으로 만든거라 디렉토리 구조에는 개선이 필요할..지도..?   
-heroList 도메인의 경우 기존 파엠히위키의 DB를 조회합니다. 트레커 어플리케이션에서 CRUD중 Read만 실행합니다.   
+Test 쪽도 작성하다 말아서 추가해야한... 
 
 ## 사용 오픈소스
 [Select2](https://select2.org/)   
