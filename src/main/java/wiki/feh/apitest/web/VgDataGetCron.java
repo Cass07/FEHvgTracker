@@ -39,8 +39,6 @@ public class VgDataGetCron {
 
         initCurrentVgInfo(LocalDateTime.now());
 
-        System.out.println("123");
-
         if (currentVgInfo != null)
         {
             LocalDateTime currentTime = LocalDateTime.now();
