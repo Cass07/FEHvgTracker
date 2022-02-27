@@ -68,7 +68,7 @@ public class VgDataGetCron {
                 long diff = getTimeDiff(currentVgInfo.getVgStartDate(), currentTime);
                 if (diff <= 0 || diff > 141)//시작날짜 이전이거나 시간날짜로부터 마지막 라운드가 끝낫다면 null로함.
                 {
-                    if(diff <= 0)
+                    if(diff <= 0 && diff > -5)
                     {
                         postsService.save(new PostsSaveRequestDto("로그 : null", "없음", "kjh95828@gmail.com"));
                     }

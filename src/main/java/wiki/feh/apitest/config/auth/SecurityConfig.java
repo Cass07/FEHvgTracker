@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import wiki.feh.apitest.domain.user.Role;
 
 @RequiredArgsConstructor
@@ -25,6 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/manualcron","/api/v1/posts/**", "/admin/board/posts/update/**", "/admin/board/posts/save/**").hasRole(Role.USER.name())
                 .antMatchers("/vg/**").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/admin/board/")
