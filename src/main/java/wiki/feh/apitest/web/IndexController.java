@@ -160,7 +160,7 @@ public class IndexController {
 
     //serviceTest//
 
-    @GetMapping("/vg/")
+    @GetMapping(value = {"/vg/", "/vg"})
     public String vgMain(Model model)
     {
         VgViewDto vgViewDto = vgViewService.getVgMainbyid((long) -1);
@@ -177,7 +177,7 @@ public class IndexController {
         return vgViewDto.getViewString();
     }
 
-    @GetMapping("/vg/past/")
+    @GetMapping(value = {"/vg/past/", "/vg/past"})
     public String vgPastList(Model model)
     {
         VgViewDto vgViewDto = vgViewService.getVgMainbyid((long) -1);
@@ -211,7 +211,7 @@ public class IndexController {
         return !Objects.equals(vgViewDto.getViewString(), "posts-error") ? "vg-data-all" : "posts-error";
     }
 
-    @GetMapping("/vg/first/")
+    @GetMapping(value = {"/vg/first/", "/vg/first"})
     public String vgFirst(Model model)
     {
         VgViewDto vgViewDto = vgViewService.getVgFirstbyId((long) -1);
