@@ -27,6 +27,8 @@ public class VgDataGetDto {
     private double team1Rate;
     private double team2Rate;
 
+    private String currentMul;
+
     @Builder
     public VgDataGetDto(VgData entity) {
         this.id = entity.getId();
@@ -41,6 +43,7 @@ public class VgDataGetDto {
         this.team1Rate = Double.parseDouble(calcTeam1Rate());
         this.team2Rate = Double.parseDouble(calcTeam2Rate());
         this.losing = calcLosing();
+        this.currentMul = calcMul();
     }
 
     private int calcLosing() {
@@ -68,5 +71,11 @@ public class VgDataGetDto {
         return String.format("%.3f", rate);
     }
 
-
+    private String calcMul() {
+        if(this.losing == 1){
+            return "< ×" + this.team2Rate + " <";
+        }else{
+            return "> ×" + this.team1Rate + " >";
+        }
+    }
 }
