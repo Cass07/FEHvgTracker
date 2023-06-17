@@ -130,12 +130,14 @@ public class IndexController {
         if(vginfoEntity  == null)
         {
             model.addAttribute("errorMessage", "해당 투표대전이 존재하지 않습니다.");
+            model.addAttribute("customUri", custUri);
             return "posts-error";
         }
         VgDataGetDto vgDataGetDtoList = vgDataService.getFirstVgDatabyNumRoundTour(vgnum, round, tournum);
         if(vgDataGetDtoList == null)
         {
             model.addAttribute("errorMessage", "해당 투표대전 라운드가 존재하지 않습니다.");
+            model.addAttribute("customUri", custUri);
             return "posts-error";
         }
         int team1index = vgDataGetDtoList.getTeam1Index();
