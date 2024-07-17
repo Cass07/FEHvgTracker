@@ -1,4 +1,4 @@
-package wiki.feh.apitest.config.auth;
+package wiki.feh.apitest.global.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import wiki.feh.apitest.config.auth.dto.SessionUser;
+import wiki.feh.apitest.global.config.auth.dto.SessionUser;
 
 import javax.servlet.http.HttpSession;
 

@@ -10,8 +10,7 @@ public class PostsResponceDto {
     private String content;
     private String author;
 
-    public PostsResponceDto(Posts entity)
-    {
+    public PostsResponceDto(Posts entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();

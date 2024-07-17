@@ -16,26 +16,22 @@ public class VgInfoApiController {
     private final VgInfoService vgInfoService;
 
     @GetMapping("/api/v1/vginfo/{id}")
-    public VgInfoGetDto get(@PathVariable Long id)
-    {
+    public VgInfoGetDto get(@PathVariable Long id) {
         return vgInfoService.findbyId(id);
     }
 
     @GetMapping("/api/v1/vginfo")
-    public List<VgInfoGetDropdownDto> getAll()
-    {
+    public List<VgInfoGetDropdownDto> getAll() {
         return vgInfoService.findAllDescDropdown();
     }
 
     @PutMapping("/api/v1/vginfo/{id}")
-    public Long update(@PathVariable Long id, @RequestBody VgInfoSaveRequestDto vgInfoSaveRequestDto)
-    {
+    public Long update(@PathVariable Long id, @RequestBody VgInfoSaveRequestDto vgInfoSaveRequestDto) {
         return vgInfoService.update(id, vgInfoSaveRequestDto);
     }
 
     @PostMapping("/api/v1/vginfo")
-    public Long save(@RequestBody VgInfoSaveRequestDto vgInfoSaveRequestDto)
-    {
+    public Long save(@RequestBody VgInfoSaveRequestDto vgInfoSaveRequestDto) {
         return vgInfoService.save(vgInfoSaveRequestDto);
     }
 

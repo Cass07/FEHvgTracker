@@ -22,9 +22,8 @@ public class VgViewDto {
 
     @Builder
     public VgViewDto(VgInfoGetDto vgInfoEntity, List<VgDataGetDto> currentRoundVgdata,
-                     List<VgDataResultGetDto> round1Vgdata,List<VgDataResultGetDto> round2Vgdata,List<VgDataResultGetDto> round3Vgdata,
-                     String viewString, Map<String, String> viewModel)
-    {
+                     List<VgDataResultGetDto> round1Vgdata, List<VgDataResultGetDto> round2Vgdata, List<VgDataResultGetDto> round3Vgdata,
+                     String viewString, Map<String, String> viewModel) {
         this.currentRoundVgdata = currentRoundVgdata;
         this.round1Vgdata = round1Vgdata;
         this.round2Vgdata = round2Vgdata;

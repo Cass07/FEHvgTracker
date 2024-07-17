@@ -15,8 +15,7 @@ public class PostsGetDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public PostsGetDto(Posts entity)
-    {
+    public PostsGetDto(Posts entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.author = entity.getAuthor();

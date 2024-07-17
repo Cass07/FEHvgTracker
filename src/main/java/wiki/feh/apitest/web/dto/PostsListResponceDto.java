@@ -14,8 +14,7 @@ public class PostsListResponceDto {
     private LocalDateTime modifiedDate;
     private String modifiedDateString;
 
-    public PostsListResponceDto(Posts entity)
-    {
+    public PostsListResponceDto(Posts entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.author = entity.getAuthor();

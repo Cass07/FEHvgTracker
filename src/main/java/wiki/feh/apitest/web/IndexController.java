@@ -1,15 +1,12 @@
 package wiki.feh.apitest.web;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import wiki.feh.apitest.config.auth.LoginUser;
-import wiki.feh.apitest.config.auth.dto.SessionUser;
-import wiki.feh.apitest.domain.vgdata.VgData;
+import wiki.feh.apitest.global.config.auth.LoginUser;
+import wiki.feh.apitest.global.config.auth.dto.SessionUser;
 import wiki.feh.apitest.service.global.PostsViewService;
 import wiki.feh.apitest.service.global.VgViewService;
 import wiki.feh.apitest.service.posts.PostsService;
@@ -17,11 +14,6 @@ import wiki.feh.apitest.service.vgdata.VgDataService;
 import wiki.feh.apitest.service.vginfo.VgInfoService;
 import wiki.feh.apitest.web.dto.*;
 
-import javax.servlet.http.HttpSession;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor

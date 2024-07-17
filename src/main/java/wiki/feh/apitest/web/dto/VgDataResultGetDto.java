@@ -64,9 +64,9 @@ public class VgDataResultGetDto {
     }
 
     private String calcMul() {
-        if(this.losing == 1){
+        if (this.losing == 1) {
             return "< ×" + this.team2Rate + " <";
-        }else{
+        } else {
             return "> ×" + this.team1Rate + " >";
         }
     }

@@ -10,8 +10,7 @@ public class HeroListGetDto {
     public String jpname;
     public String kornamesub;
 
-    public HeroListGetDto(HeroList entity)
-    {
+    public HeroListGetDto(HeroList entity) {
         id = entity.getId();
         korname = entity.getKorname();
         jpname = entity.getJpname();

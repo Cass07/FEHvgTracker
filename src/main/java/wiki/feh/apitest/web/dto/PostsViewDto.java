@@ -15,8 +15,7 @@ public class PostsViewDto {
     private Map<String, Object> viewModel;
 
     @Builder
-    public PostsViewDto(List<PostsListResponceDto> postsList, Map<String, Object> viewModel)
-    {
+    public PostsViewDto(List<PostsListResponceDto> postsList, Map<String, Object> viewModel) {
         this.postsList = postsList;
         this.viewModel = viewModel;
     }

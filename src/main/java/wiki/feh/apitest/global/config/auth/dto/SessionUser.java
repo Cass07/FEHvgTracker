@@ -1,4 +1,4 @@
-package wiki.feh.apitest.config.auth.dto;
+package wiki.feh.apitest.global.config.auth.dto;
 
 import lombok.Getter;
 import wiki.feh.apitest.domain.user.User;

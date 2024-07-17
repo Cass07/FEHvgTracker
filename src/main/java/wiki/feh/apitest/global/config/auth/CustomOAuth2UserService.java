@@ -1,4 +1,4 @@
-package wiki.feh.apitest.config.auth;
+package wiki.feh.apitest.global.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import wiki.feh.apitest.config.auth.dto.OAuthAttributes;
-import wiki.feh.apitest.config.auth.dto.SessionUser;
+import wiki.feh.apitest.global.config.auth.dto.OAuthAttributes;
+import wiki.feh.apitest.global.config.auth.dto.SessionUser;
 import wiki.feh.apitest.domain.user.User;
 import wiki.feh.apitest.domain.user.UserRepository;
 

@@ -1,10 +1,10 @@
-package wiki.feh.apitest.config;
+package wiki.feh.apitest.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import wiki.feh.apitest.config.auth.LoginUserArgumentResolver;
+import wiki.feh.apitest.global.config.auth.LoginUserArgumentResolver;
 
 import java.util.List;
 

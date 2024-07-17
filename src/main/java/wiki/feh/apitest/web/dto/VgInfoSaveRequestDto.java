@@ -25,7 +25,7 @@ public class VgInfoSaveRequestDto {
 
     @Builder
     public VgInfoSaveRequestDto(int vgNumber, String vgTitle, LocalDate vgStartDate,
-                                String team1Id, String team2Id, String team3Id, String team4Id, String team5Id, String team6Id, String team7Id, String team8Id){
+                                String team1Id, String team2Id, String team3Id, String team4Id, String team5Id, String team6Id, String team7Id, String team8Id) {
 
         this.vgNumber = vgNumber;
         this.vgTitle = vgTitle;
@@ -41,7 +41,7 @@ public class VgInfoSaveRequestDto {
 
     }
 
-    public VgInfo toEntity(){
+    public VgInfo toEntity() {
         return VgInfo.builder()
                 .vgNumber(this.vgNumber)
                 .vgTitle(this.vgTitle)

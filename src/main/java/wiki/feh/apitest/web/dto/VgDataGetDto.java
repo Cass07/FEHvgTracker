@@ -47,17 +47,16 @@ public class VgDataGetDto {
     }
 
     private int calcLosing() {
-        if (this.floor(Long.parseLong(team1Score) / (double) Long.parseLong(team2Score),4) > 1.01)
+        if (this.floor(Long.parseLong(team1Score) / (double) Long.parseLong(team2Score), 4) > 1.01)
             return 2;
-        else if (this.floor(Long.parseLong(team2Score) / (double) Long.parseLong(team1Score),4) > 1.01)
+        else if (this.floor(Long.parseLong(team2Score) / (double) Long.parseLong(team1Score), 4) > 1.01)
             return 1;
         else
             return 0;
     }
 
-    private double floor(double number, int dec)
-    {
-        double pow = Math.pow(10,dec);
+    private double floor(double number, int dec) {
+        double pow = Math.pow(10, dec);
         return Math.floor(number * pow) / pow;
     }
 
@@ -72,9 +71,9 @@ public class VgDataGetDto {
     }
 
     private String calcMul() {
-        if(this.losing == 1){
+        if (this.losing == 1) {
             return "< ×" + this.team2Rate + " <";
-        }else{
+        } else {
             return "> ×" + this.team1Rate + " >";
         }
     }

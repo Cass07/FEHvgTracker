@@ -12,16 +12,14 @@ public class PostsSaveRequestDto {
     private String content;
     private String author;
 
-    //builder 붙인 이유? api put, post 등으로 리퀘스트 받아온 데이터를 DTO에 넣어야할때 builder패턴이 필요하기때문
     @Builder
-    public PostsSaveRequestDto(String title, String content, String author)
-    {
+    public PostsSaveRequestDto(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
     }
 
-    public Posts toEntity(){
+    public Posts toEntity() {
         return Posts.builder()
                 .title(title)
                 .content(content)

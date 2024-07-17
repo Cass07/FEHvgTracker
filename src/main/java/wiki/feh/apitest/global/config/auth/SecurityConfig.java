@@ -1,4 +1,4 @@
-package wiki.feh.apitest.config.auth;
+package wiki.feh.apitest.global.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;

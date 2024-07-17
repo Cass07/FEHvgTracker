@@ -22,8 +22,7 @@ public class PostsGetWithPicDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public PostsGetWithPicDto(Long id, String title, String content, String author, String picture, String name, LocalDateTime createdDate, LocalDateTime modifiedDate)
-    {
+    public PostsGetWithPicDto(Long id, String title, String content, String author, String picture, String name, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.title = title;
         this.content = content;

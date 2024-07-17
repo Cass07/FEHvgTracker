@@ -1,4 +1,4 @@
-package wiki.feh.apitest.config.auth;
+package wiki.feh.apitest.global.config.auth;
 
 
 import java.lang.annotation.ElementType;
