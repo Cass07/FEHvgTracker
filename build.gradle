@@ -1,64 +1,72 @@
 buildscript{
-    ext{
-        springBootVersion = '2.1.7.RELEASE'
-        querydslPluginVersion = '1.0.10'
-    }
-    repositories{
-        mavenCentral()
-        maven{ url "https://plugins.gradle.org/m2/"}
-        jcenter()
-    }
-    dependencies{
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVersion}")
+    ext {
+        queryDslVersion = "5.0.0"
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
+plugins {
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
 
 group 'wiki.feh.api'
 version '1.0-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 21
 
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile("org.projectlombok:lombok")
-    compile('org.jsoup:jsoup:1.14.3')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.mariadb.jdbc:mariadb-java-client')
-    //compile("org.springframework.boot:spring-boot-starter-mustache")
-    compile("org.springframework.boot:spring-boot-starter-oauth2-client")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-    compile("com.querydsl:querydsl-jpa")
-    compile("com.querydsl:querydsl-apt")
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
 
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-    implementation 'javax.servlet:jstl'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.jsoup:jsoup:1.14.3'
+
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // QueryDSL
+    implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
+    annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+
+    //implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    //implementation 'jakarta.servlet:jakarta.servlet-api'
+    //implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+    //implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+
 }
 
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
-def querydslSrcDir = 'src/main/generated'
-
-querydsl {
-    library = "com.querydsl:querydsl-apt"
-    jpa = true
-    querydslSourcesDir = querydslSrcDir
+test {
+    useJUnitPlatform()
 }
 
-sourceSets{
-    main{
-        java{
-            srcDirs = ['src/main/java', querydslSrcDir]
-        }
-    }
+// [3] Querydsl 설정부
+def generated = 'src/main/generated'
+
+// [4] querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// [5] java source set 에 querydsl QClass 위치 추가
+sourceSets {
+    main.java.srcDirs += [ generated ]
+}
+
+// [6] gradle clean 시에 QClass 디렉토리 삭제
+clean {
+    delete file(generated)
 }

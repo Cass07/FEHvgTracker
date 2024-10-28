@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -12,6 +13,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class jsoupVgCrawler {
 
@@ -21,7 +25,7 @@ public class jsoupVgCrawler {
         StringBuilder output = new StringBuilder();
         for(Element value : p_)
         {
-            System.out.println(value);
+            log.info(value.text());
             output.append(value.text()).append("<br>");
         }
 
@@ -47,7 +51,7 @@ public class jsoupVgCrawler {
             String team1_name = team1_div.select("p").get(0).text();
             String team1_score = team1_div.select("p").get(1).text();
 
-            System.out.println (team1_number + team1_name + team1_score);
+            log.info(team1_number + team1_name + team1_score);
 
 
             Element team2_div = tb.children().get(1);
@@ -56,7 +60,7 @@ public class jsoupVgCrawler {
             String team2_name = team2_div.select("p").get(0).text();
             String team2_score = team2_div.select("p").get(1).text();
 
-            System.out.println (team2_number + team2_name + team2_score);
+            log.info(team2_number + team2_name + team2_score);
 
             output = output + team1_number + " : " + team1_name + " " + team1_score + "<br>"
             + team2_number + " : " +team2_name + " " + team2_score + "<br>";

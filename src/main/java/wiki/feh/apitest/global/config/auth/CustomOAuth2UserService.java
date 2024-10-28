@@ -14,7 +14,7 @@ import wiki.feh.apitest.global.config.auth.dto.SessionUser;
 import wiki.feh.apitest.domain.user.User;
 import wiki.feh.apitest.domain.user.UserRepository;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.Collections;
 
 @RequiredArgsConstructor
