@@ -9,7 +9,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import wiki.feh.apitest.global.config.auth.dto.SessionUser;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @Component

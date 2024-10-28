@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wiki.feh.apitest.domain.BaseTimeEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class User extends BaseTimeEntity {
     private String picture;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "varchar(255)")
     private Role role;
 
     @Builder

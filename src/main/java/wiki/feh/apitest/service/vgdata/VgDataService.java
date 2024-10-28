@@ -1,6 +1,8 @@
 package wiki.feh.apitest.service.vgdata;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wiki.feh.apitest.domain.vgdata.VgData;
@@ -13,6 +15,7 @@ import wiki.feh.apitest.web.dto.VgDataSaveDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class VgDataService {
@@ -28,6 +31,7 @@ public class VgDataService {
     @Transactional(readOnly = true)
     public List<VgDataGetDto> getVgDataListbyNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
     {
+        log.debug("getVgDataListbyNumRoundTour test");
         return vgDataQueryRepository.getVgDataListbyNumRoundTour(vgNumber, roundNumber, tournamentIndex).stream()
                 .map(VgDataGetDto::new).collect(Collectors.toList());
     }
