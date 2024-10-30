@@ -6,11 +6,13 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+@TestPropertySource(properties = {"spring.config.location = classpath:application-test.yaml"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class IndexControllerTest {
@@ -23,7 +25,7 @@ public class IndexControllerTest {
     {
         String Body = this.restTemplate.getForObject("/vg",String.class);
 
-        assertThat(Body).contains("메인 페이지");
+        assertThat(Body).contains("점수 트래커");
     }
 
 }
