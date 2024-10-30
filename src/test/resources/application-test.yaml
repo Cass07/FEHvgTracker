@@ -10,4 +10,14 @@ spring:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${client-id}
+            client-secret: ${client-secret}
+            scope: ${scope}
+            redirect-uri: ${redirect-uri}
+
 server.servlet.encoding.force-response: true
