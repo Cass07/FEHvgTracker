@@ -27,7 +27,7 @@ jobs:
       - name: Add application-test yaml secrets
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'resources/application-test.yaml'
+          files: ${{ github.workspace }}/src/test/resources/application-test.yaml
         env:
           spring.security.oauth2.client.registration.google.client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
           spring.security.oauth2.client.registration.google.client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
