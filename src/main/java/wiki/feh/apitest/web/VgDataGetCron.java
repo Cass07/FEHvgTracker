@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import wiki.feh.apitest.domain.vginfo.VgInfo;
 import wiki.feh.apitest.service.posts.PostsService;
 import wiki.feh.apitest.service.vgdata.VgDataService;
 import wiki.feh.apitest.service.vginfo.VgInfoService;
@@ -125,15 +124,15 @@ public class VgDataGetCron {
 
     private void saveFromMap(Map<String, String> data, int round, int timeDiff, int vgNumber, int tournamentIndex) {
         vgDataService.save(new VgDataSaveDto(vgNumber, data.get("team1Score"), data.get("team2Score"),
-                Integer.parseInt(data.get("team1Index")), Integer.parseInt(data.get("team2Index")),
-                round, tournamentIndex, timeDiff));
+            Integer.parseInt(data.get("team1Index")), Integer.parseInt(data.get("team2Index")),
+            round, tournamentIndex, timeDiff));
     }
 
     private List<Map<String, String>> getMapListbyCrawl(int vgNumber) throws Exception {
         Document doc = Jsoup.connect("https://support.fire-emblem-heroes.com/voting_gauntlet/tournaments/" + vgNumber).get();
         Elements tb_ = doc.select(".tournaments-battle");
         List<Map<String, String>> output = new ArrayList<>();
-        String toPost = "";
+        StringBuilder toPost = new StringBuilder();
 
         for (Element tb : tb_) {
             //tournament battle마다 한 배틀에 참여하는 두 팀의 div가 들어있다
@@ -144,29 +143,35 @@ public class VgDataGetCron {
 
             Element team1_div = tb.children().first();
             String team1_number = team1_div.attr("class").replace("tournaments-art-left art-" + vgNumber + "-", "")
-                    .replace("-behind", "").replace("-normal", "");
+                .replace("-behind", "").replace("-normal", "");
             String team1_name = team1_div.select("p").get(0).text();
             String team1_score = team1_div.select("p").get(1).text();
 
 
             Element team2_div = tb.children().get(1);
             String team2_number = team2_div.attr("class").replace("tournaments-art-right art-" + vgNumber + "-", "")
-                    .replace("-behind", "").replace("-normal", "");
+                .replace("-behind", "").replace("-normal", "");
             String team2_name = team2_div.select("p").get(0).text();
             String team2_score = team2_div.select("p").get(1).text();
 
 
-            toPost = toPost + "<br>" + team1_number + team1_name + team1_score + "<br>"
-                    + team2_number + team2_name + team2_score;
+            toPost.append("<br>")
+                .append(team1_number)
+                .append(team1_name)
+                .append(team1_score)
+                .append("<br>")
+                .append(team2_number)
+                .append(team2_name)
+                .append(team2_score);
 
-            output.add(new HashMap<String, String>() {{
+            output.add(new HashMap<>() {{
                 put("team1Index", team1_number);
                 put("team1Score", team1_score.replace(",", ""));
                 put("team2Index", team2_number);
                 put("team2Score", team2_score.replace(",", ""));
             }});
         }
-        postsService.save(new PostsSaveRequestDto("로그 : " + vgNumber + " 수집완료", toPost, "kjh95828@gmail.com"));
+        postsService.save(new PostsSaveRequestDto("로그 : " + vgNumber + " 수집완료", toPost.toString(), "kjh95828@gmail.com"));
         return output;
     }
 
@@ -179,6 +184,6 @@ public class VgDataGetCron {
     }
 
     private Long getTimeDiff(LocalDate vgStartDate, LocalDateTime currentTime, int round) {
-        return ChronoUnit.HOURS.between(vgStartDate.plusDays(round * 2 - 2).atTime(16, 0), currentTime);
+        return ChronoUnit.HOURS.between(vgStartDate.plusDays(round * 2L - 2).atTime(16, 0), currentTime);
     }
 }
