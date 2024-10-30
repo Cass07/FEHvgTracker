@@ -32,7 +32,7 @@ jobs:
           spring.security.oauth2.client.registration.google.client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
           spring.security.oauth2.client.registration.google.client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           spring.security.oauth2.client.registration.google.scope: ${{ secrets.GOOGLE_SCOPE }}
-            spring.security.oauth2.client.registration.google.redirect-uri: ${{ secrets.GOOGLE_REDIRECT_URI_TEST }}
+          spring.security.oauth2.client.registration.google.redirect-uri: ${{ secrets.GOOGLE_REDIRECT_URI_TEST }}
 
       - name: Test with Gradle
         run: ./gradlew build --info test
