@@ -27,7 +27,7 @@ jobs:
         run: ./gradlew build --info test
 
       - name: Jacoco Test Coverage Report
-        uses: madrapps/jacoco-action@v1.6.1
+        uses: madrapps/jacoco-report@v1.6.1
         with:
           title: 'Jacoco Test Coverage Report'
           paths: ${{ github.workspace }}/build/jacoco/jacocoTestReport.xml
