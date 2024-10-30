@@ -21,9 +21,9 @@ public class IndexControllerTest {
     @Test
     public void Mainpage_loading()
     {
-        String Body = this.restTemplate.getForObject("/",String.class);
+        String Body = this.restTemplate.getForObject("/vg",String.class);
 
-        assertThat(Body).contains("로그");
+        assertThat(Body).contains("메인 페이지");
     }
 
 }

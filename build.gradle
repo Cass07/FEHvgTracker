@@ -8,6 +8,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'jacoco'
 }
 
 group 'wiki.feh.api'
@@ -35,6 +36,8 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'com.h2database:h2'
 
     // QueryDSL
     implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
@@ -49,9 +52,59 @@ dependencies {
 
 }
 
+jacoco {
+    toolVersion = "0.8.9"
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+
+        // Qclass 패키지를 제외하는 부분
+        def Qdomains = []
+        for (qPattern in "**/QA".."**/QZ") {
+            Qdomains.add(qPattern + "*")
+        }
+
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it,
+                        exclude: [
+                                "**/dto/*",
+
+                        ] + Qdomains)
+            }))
+        }
+
+        // xml, html 파일 생성 위치
+        xml.destination file("${buildDir}/jacoco/jacocoTestReport.xml")
+        html.destination file("${buildDir}/jacoco/html")
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+        }
+    }
+}
+
+
 
 // [3] Querydsl 설정부
 def generated = 'src/main/generated'

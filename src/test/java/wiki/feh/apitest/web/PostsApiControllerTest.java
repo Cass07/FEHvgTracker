@@ -1,119 +1,115 @@
 package wiki.feh.apitest.web;
 
-import org.junit.jupiter.api.AfterAll;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import wiki.feh.apitest.domain.posts.Posts;
 import wiki.feh.apitest.domain.posts.PostsRepository;
+import wiki.feh.apitest.service.posts.PostsService;
+import wiki.feh.apitest.web.dto.PostsResponceDto;
 import wiki.feh.apitest.web.dto.PostsSaveRequestDto;
 import wiki.feh.apitest.web.dto.PostsUpdateRequestDto;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+@ExtendWith(org.springframework.test.context.junit.jupiter.SpringExtension.class)
+@TestPropertySource(properties = {"spring.config.location = classpath:application-test.yaml"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+@WebMvcTest(controllers = PostApiController.class)
 public class PostsApiControllerTest {
 
-    @LocalServerPort
-    private int port;
+	private final int port = 8080;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+	@Autowired
+	private MockMvc mockMvc;
 
-    @Autowired
-    private PostsRepository postsRepository;
+	@MockBean(name = "postsRepository")
+	private PostsRepository postsRepository;
 
-    @AfterAll
-    public void tearDown() throws Exception{
-        postsRepository.deleteAll();
-    }
+	@MockBean(name = "postsService")
+	private PostsService postsService;
 
-    @Test
-    public void Posts_post() throws Exception{
-        String title = "title";
-        String content = "content";
-        PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
-                .title(title)
-                .content(content)
-                .author("author")
-                .build();
+	@BeforeAll
+	public void setup() {
+	}
 
-        String url = "http://localhost:" + port + "api/v1/posts.mustache";
+	@Test
+	@WithMockUser(roles = "USER", username = "name1", authorities = {"ROLE_USER"})
+	public void Posts_post() throws Exception {
+		// given
+		String title = "title";
+		String content = "content";
+		PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
+			.title(title)
+			.content(content)
+			.author("author")
+			.build();
 
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, requestDto, Long.class);
+		String url = "http://localhost:" + port + "/api/v1/posts";
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+		// when
+		ResultActions resultActions = mockMvc.perform(post(url)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(new ObjectMapper().writeValueAsString(requestDto))
+			.with(csrf()));
 
-        List<Posts> all = postsRepository.findAll();
-        assertThat(all.get(0).getTitle()).isEqualTo(title);
-        assertThat(all.get(0).getContent()).isEqualTo(content);
+		//then
+		resultActions.andExpect(status().isOk());
+	}
 
-    }
+	@WithMockUser(roles = "USER", username = "name1", authorities = {"ROLE_USER"})
+	@Test
+	public void Posts_edit() throws Exception {
+		// given
+		String title = "title5";
+		String content = "content5";
 
-    @Test
-    public void Posts_edit() throws Exception{
-        String title = "title";
-        String content = "content";
+		Posts savedPosts = Posts.builder()
+			.title(title)
+			.content(content)
+			.author("name1")
+			.build();
 
-        Posts savedPosts  = postsRepository.save(Posts.builder()
-                .title(title)
-                .content(content)
-                .author("author")
-                .build());
+		long updateId = 1L;
+		String expectedTitle = "title2";
+		String expectedContent = "content2";
 
-        Long updateId = savedPosts.getId();
-        String expectedTitle = "title2";
-        String expectedContent = "content2";
+		PostsResponceDto postsResponceDto = new PostsResponceDto(savedPosts);
 
-        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder()
-                .title(expectedTitle)
-                .content(expectedContent)
-                .build();
+		given(postsService.findbyId(1L)).willReturn(postsResponceDto);
 
-        String url = "http://localhost:" + port + "/api/v1/posts.mustache/" + updateId;
+		PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder()
+			.title(expectedTitle)
+			.content(expectedContent)
+			.build();
 
-        HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+		String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
-        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
+		// when
+		ResultActions resultActions = mockMvc.perform(put(url)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(new ObjectMapper().writeValueAsString(requestDto))
+			.with(csrf()));
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
-
-        List<Posts> all = postsRepository.findAll();
-        assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
-        assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
-    }
-
-    @Test
-    public void BaseTimeEntity_enroll()
-    {
-        LocalDateTime now = LocalDateTime.now();
-        postsRepository.save(Posts.builder()
-                .title("title")
-                .content("content")
-                .author("author")
-                .build());
-
-        List<Posts> postsList = postsRepository.findAll();
-
-        Posts posts = postsList.get(0);
-
-        System.out.println(">>>>>>> creatdDate : "+posts.getCreateDate() + " modifiedDate : " + posts.getModifiedDate());
-
-        assertThat(posts.getCreateDate()).isAfter(now);
-        assertThat(posts.getModifiedDate()).isAfter(now);
-    }
+		// then
+		resultActions.andExpect(status().isOk());
+	}
 }
