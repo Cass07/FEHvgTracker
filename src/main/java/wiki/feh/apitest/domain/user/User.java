@@ -9,13 +9,13 @@ import jakarta.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name= "user")
+@Table(name= "`feh_user`")
 @Entity
 public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String name;
@@ -51,6 +51,4 @@ public class User extends BaseTimeEntity {
     {
         return this.role.getKey();
     }
-
-
 }

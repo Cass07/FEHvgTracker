@@ -1,5 +1,5 @@
 {{>layout/header}}
-<link rel = "stylesheet" href = "{{customUri}}/js/app/assets/bootstrap-datepicker.min.css">
+<link rel = "stylesheet" href = "/js/app/assets/bootstrap-datepicker.min.css">
 
 <div class = "container" style = "padding-top : 20px;">
     <div class = "col-md-12">
@@ -72,22 +72,22 @@
                     </select>
                 </div>
             </div>
-        <form>
-        <a href = "/voting/admin/board/" role = "button" class = "btn btn-secondary">취소</a>
-        <button type = "button" class = "btn btn-primary" id = "VginfoSave" style = "display : none">등록</button>
-        <button type = "button" class = "btn btn-success" id = "VginfoUpdate" style = "display : none">수정</button>
+        </form>
+            <a href = "/admin/board/" role = "button" class = "btn btn-secondary">취소</a>
+            <button type = "button" class = "btn btn-primary" id = "VginfoSave" style = "display : none">등록</button>
+            <button type = "button" class = "btn btn-success" id = "VginfoUpdate" style = "display : none">수정</button>
     </div>
 </div>
 
 {{>layout/footer_vg}}
-<script src="{{customUri}}/js/app/assets/bootstrap-datepicker.min.js"></script>
-<script src="{{customUri}}/js/app/assets/bootstrap-datepicker.ko.min.js"></script>
+<script src="/js/app/assets/bootstrap-datepicker.min.js"></script>
+<script src="/js/app/assets/bootstrap-datepicker.ko.min.js"></script>
 <script type = "text/javascript">
 
     let $submitButton = $("#VginfoSave");
     let $updateButton = $("#VginfoUpdate");
 
-    const customUri = "/voting";
+    const customUri = "";
 
     $submitButton.on("click", function(){
        vginfo_save();

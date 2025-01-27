@@ -28,16 +28,16 @@
 <div class = "col-md-12">
     <div class = "row">
         <div class = "col-md-6">
-            <a href = "{{customUri}}/admin/board/posts/save" role = "button" class = "btn btn-primary">글 등록</a>
-            <a href = "{{customUri}}/admin/manualcron" role = "button" class = "btn btn-primary">수동 데이터 수집</a>
-            <a href = "{{customUri}}/admin/vginfo" role = "button" class = "btn btn-primary">투표대전 데이터 수정</a>
+            <a href = "/admin/board/posts/save" role = "button" class = "btn btn-primary">글 등록</a>
+            <a href = "/admin/manualcron" role = "button" class = "btn btn-primary">수동 데이터 수집</a>
+            <a href = "/admin/vginfo" role = "button" class = "btn btn-primary">투표대전 데이터 수정</a>
             {{#userName}}
                 Logged is as : <span id = "user">{{userName.name}}</span>
             <span><img src = "{{userName.picture}}" style = "width : 40px"></span>
-            <a href = "https://feh.wiki/voting/logout" class = "btn btn-info active" role = button>로그아웃</a>
+            <a href = "https://vg.feh.wiki/logout" class = "btn btn-info active" role = button>로그아웃</a>
             {{/userName}}
             {{^userName}}
-                <a href = "https://feh.wiki/voting/oauth2/authorization/google" class = "btn btn-success active" role = button>구글 로그인</a>
+                <a href = "https://vg.feh.wiki/oauth2/authorization/google" class = "btn btn-success active" role = button>구글 로그인</a>
             {{/userName}}
         </div>
     </div>
@@ -55,7 +55,7 @@
         {{#posts}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href = "/voting/admin/board/posts/{{id}}">{{title}}</a></td>
+                <td><a href = "/admin/board/posts/{{id}}">{{title}}</a></td>
                 <td>{{author}}</td>
                 <td>{{modifiedDateString}}</td>
             </tr>
@@ -65,37 +65,37 @@
     <ul class = "pagination">
         {{#pageFirst}}
             <li id = "page-first">
-                <a href = "/voting/admin/board/page/{{.}}"><i class="bi bi-chevron-double-left"></i></a>
+                <a href = "/admin/board/page/{{.}}"><i class="bi bi-chevron-double-left"></i></a>
             </li>
         {{/pageFirst}}
         {{#pagePrev}}
             <li id = "page-prev">
-            <a href = "/voting/admin/board/page/{{.}}"><i class="bi bi-chevron-left"></i></a>
+            <a href = "/admin/board/page/{{.}}"><i class="bi bi-chevron-left"></i></a>
             </li>
         {{/pagePrev}}
         {{#pageCurrentPrevList}}
             <li class = "page-number">
-                <a href = "/voting/admin/board/page/{{.}}">{{.}}</a>
+                <a href = "/admin/board/page/{{.}}">{{.}}</a>
             </li>
         {{/pageCurrentPrevList}}
         {{#pageCurrent}}
             <li class = "page-number active">
-                <a href = "/voting/admin/board/page/{{.}}">{{.}}</a>
+                <a href = "/admin/board/page/{{.}}">{{.}}</a>
             </li>
         {{/pageCurrent}}
         {{#pageCurrentNextList}}
             <li class = "page-number">
-                <a href = "/voting/admin/board/page/{{.}}">{{.}}</a>
+                <a href = "/admin/board/page/{{.}}">{{.}}</a>
             </li>
         {{/pageCurrentNextList}}
         {{#pageNext}}
             <li id = "page-next">
-                <a href = "/voting/admin/board/page/{{.}}"><i class="bi bi-chevron-right"></i></a>
+                <a href = "/admin/board/page/{{.}}"><i class="bi bi-chevron-right"></i></a>
             </li>
         {{/pageNext}}
         {{#pageLast}}
             <li id = "page-next">
-                <a href = "/voting/admin/board/page/{{.}}"><i class="bi bi-chevron-double-right"></i></a>
+                <a href = "/admin/board/page/{{.}}"><i class="bi bi-chevron-double-right"></i></a>
             </li>
         {{/pageLast}}
     </ul>

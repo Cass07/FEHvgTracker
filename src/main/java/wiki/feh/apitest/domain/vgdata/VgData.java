@@ -8,11 +8,12 @@ import jakarta.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Table(name = "`vg_data`")
 @Entity
 public class VgData{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private int vgNumber;//vg 회차 숫자

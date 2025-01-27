@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: ${datasource-url}
+    driver-class-name: ${datasource-driver}
+    username: ${datasource-username}
+    password: ${datasource-password}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${client-id}
+            client-secret: ${client-secret}
+            scope: ${scope}
+            redirect-uri: ${redirect-uri}
+
+server:
+  servlet:
+    encoding:
+      force: true
+  compression:
+    enabled: true
+    mime-types: text/html,text/plain,text/css,application/json
+    min-response-size: 500
+
