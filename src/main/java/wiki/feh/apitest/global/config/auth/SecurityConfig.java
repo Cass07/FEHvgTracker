@@ -43,20 +43,18 @@ public class SecurityConfig {
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
         );
 
-        http.oauth2Login(oauth2Login -> {
-            oauth2Login.userInfoEndpoint(userInfoEndpoint -> {
-                userInfoEndpoint.userService(customOAuth2UserService);
-            });
-        });
+        http.oauth2Login(oauth2Login -> oauth2Login.userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService)));
 
         http.authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
-                .requestMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-                .requestMatchers("/admin/board/posts\\/[\\d]*").hasRole(Role.USER.name())
+                .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
+                .requestMatchers("/admin/board/posts/[\\d]*").hasRole(Role.ADMIN.name())
                 .requestMatchers(HttpMethod.GET, "/api/v1/vginfo/**", "/api/v1/vgdata/**").permitAll()
-                .requestMatchers(HttpMethod.PUT,"/api/v1/vginfo/**").hasRole(Role.USER.name())
-                .requestMatchers(HttpMethod.POST,"/api/v1/vginfo/**" ).hasRole(Role.USER.name())
-                .requestMatchers("/admin/manualcron","/api/v1/posts/**", "/admin/board/posts/update/**", "/admin/board/posts/save/**").hasRole(Role.USER.name())
+                .requestMatchers(HttpMethod.PUT,"/api/v1/vginfo/**").hasRole(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.POST,"/api/v1/vginfo/**" ).hasRole(Role.ADMIN.name())
+                .requestMatchers("/admin/manualcron","/api/v1/posts/**", "/admin/board/posts/update/**", "/admin/board/posts/save/**").hasRole(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.POST, "/api/v1/posts").hasRole(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.GET, "/admin/board/posts/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("/vg/**").permitAll()
                 .anyRequest().authenticated()
         );

@@ -1,20 +1,22 @@
 package wiki.feh.apitest.domain.vginfo;
 
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @NoArgsConstructor
+@Table(name = "`vg_info`")
 @Entity
 public class VgInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private int vgNumber;
@@ -46,7 +48,7 @@ public class VgInfo {
 
     @Builder
     public VgInfo(int vgNumber, String vgTitle, LocalDate vgStartDate,
-                  String team1Id, String team2Id, String team3Id, String team4Id, String team5Id, String team6Id, String team7Id, String team8Id){
+                  String team1Id, String team2Id, String team3Id, String team4Id, String team5Id, String team6Id, String team7Id, String team8Id) {
 
         this.vgNumber = vgNumber;
         this.vgTitle = vgTitle;
@@ -62,9 +64,8 @@ public class VgInfo {
 
     }
 
-    public void update (int vgNumber, String vgTitle, LocalDate vgStartDate,
-    String team1Id, String team2Id, String team3Id, String team4Id, String team5Id, String team6Id, String team7Id, String team8Id)
-    {
+    public void update(int vgNumber, String vgTitle, LocalDate vgStartDate,
+                       String team1Id, String team2Id, String team3Id, String team4Id, String team5Id, String team6Id, String team7Id, String team8Id) {
         this.vgNumber = vgNumber;
         this.vgTitle = vgTitle;
         this.vgStartDate = vgStartDate;
@@ -78,34 +79,37 @@ public class VgInfo {
         this.team8Id = team8Id;
     }
 
-    public void UpdateTeamId(int teamIndex, String teamId)
-    {
-        switch(teamIndex)
-        {
-            case 1:
-                this.team1Id = teamId;
-                break;
-            case 2:
-                this.team2Id = teamId;
-                break;
-            case 3:
-                this.team3Id = teamId;
-                break;
-            case 4:
-                this.team4Id = teamId;
-                break;
-            case 5:
-                this.team5Id = teamId;
-                break;
-            case 6:
-                this.team6Id = teamId;
-                break;
-            case 7:
-                this.team7Id = teamId;
-                break;
-            case 8:
-                this.team8Id = teamId;
-                break;
-        }
+    /**
+     * 현재 시간에 진행 중인 vgInfo인지 여부를 번환
+     * true라면 데이터를 수집해야 함을 의미
+     *
+     * @param now
+     * @return
+     */
+    public boolean isValidTime(LocalDateTime now) {
+        long timeDiff = ChronoUnit.HOURS.between(vgStartDate.atTime(16, 0), now);
+        return timeDiff <= 141 && timeDiff > 0;
+    }
+
+    /**
+     * 현재 시간의 vgInfo 라운드 값을 반환
+     *
+     * @param now
+     * @return
+     */
+    public int getRoundByTime(LocalDateTime now) {
+        long timeDiff = ChronoUnit.HOURS.between(vgStartDate.atTime(16, 0), now);
+        return (((int) timeDiff - 1) / 48) + 1;
+    }
+
+    /**
+     * 현재 라운드의 시간차를 반환
+     *
+     * @param now
+     * @param round
+     * @return
+     */
+    public int getRoundTimeDiff(LocalDateTime now, int round) {
+        return (int) ChronoUnit.HOURS.between(vgStartDate.plusDays(round * 2L - 2).atTime(16, 0), now);
     }
 }

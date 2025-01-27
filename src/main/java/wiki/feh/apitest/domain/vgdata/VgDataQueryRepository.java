@@ -11,7 +11,7 @@ import static wiki.feh.apitest.domain.vgdata.QVgData.vgData;
 @RequiredArgsConstructor
 @Repository
 public class VgDataQueryRepository {
-
+    private final int[] LIMIT_NUM = {1,4,2,1};
     private final JPAQueryFactory queryFactory;
 
     //특정 vgnumber, roundnumber, tourIndex 로 조회되는 제일 최신의 vgdata
@@ -57,12 +57,11 @@ public class VgDataQueryRepository {
     //특정 vgnumber, round로 조회되는 제일 최신의 vgdata리스트 4~1개(라운드따라) (현재 상황표 출력용)
     public List<VgData> getNowtimeVgDataListbyVgNumberRound(int vgNumber, int roundNumber)
     {
-        int[] limitNum = {1,4,2,1};
         return queryFactory
                 .selectFrom(vgData)
                 .where(vgData.vgNumber.eq(vgNumber), vgData.roundNumber.eq(roundNumber))
                 .orderBy(vgData.timeIndex.desc(), vgData.tournamentIndex.asc())
-                .limit(limitNum[roundNumber])
+                .limit(LIMIT_NUM[roundNumber])
                 .fetch();
     }
 

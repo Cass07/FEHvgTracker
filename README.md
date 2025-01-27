@@ -1,6 +1,6 @@
 # FEHvgTracker (파엠히 투표대전 트래커)   
 ## 전체 페이지   
-[Click!](https://feh.wiki/voting/vg/)
+[Click!](https://vg.feh.wiki/vg)
 
  * 메인 페이지   
  현재 진행되는 투표대전 현황 OR 제일 마지막으로 종료된 투표대전 결과

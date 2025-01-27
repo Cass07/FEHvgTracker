@@ -1,5 +1,7 @@
 package wiki.feh.apitest.domain.herolist;
 
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,8 @@ import jakarta.persistence.Id;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name= "`hero_list`")
 @Entity
 public class HeroList {
     @Id

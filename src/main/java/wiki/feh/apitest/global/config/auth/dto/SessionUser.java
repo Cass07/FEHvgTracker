@@ -5,9 +5,9 @@ import wiki.feh.apitest.domain.user.User;
 
 @Getter
 public class SessionUser {
-    private String name;
-    private String email;
-    private String picture;
+    private final String name;
+    private final String email;
+    private final String picture;
 
     public SessionUser(User user)
     {

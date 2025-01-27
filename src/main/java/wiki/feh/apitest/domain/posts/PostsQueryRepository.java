@@ -1,11 +1,10 @@
 package wiki.feh.apitest.domain.posts;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import wiki.feh.apitest.web.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.controller.dto.PostsGetWithPicDto;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class PostsQueryRepository {
                 .fetch();
     }
 
-    public List<PostsGetWithPicDto> getPostsWithPicture(Long id)
+    public List<PostsGetWithPicDto> getPostsWithPicture(long id)
     {
         return queryFactory
                 .select(Projections.constructor(PostsGetWithPicDto.class,

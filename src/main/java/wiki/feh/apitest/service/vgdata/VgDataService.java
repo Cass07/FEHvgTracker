@@ -2,15 +2,14 @@ package wiki.feh.apitest.service.vgdata;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wiki.feh.apitest.domain.vgdata.VgData;
 import wiki.feh.apitest.domain.vgdata.VgDataQueryRepository;
 import wiki.feh.apitest.domain.vgdata.VgDataRepository;
-import wiki.feh.apitest.web.dto.VgDataGetDto;
-import wiki.feh.apitest.web.dto.VgDataResultGetDto;
-import wiki.feh.apitest.web.dto.VgDataSaveDto;
+import wiki.feh.apitest.controller.dto.VgDataGetDto;
+import wiki.feh.apitest.controller.dto.VgDataResultGetDto;
+import wiki.feh.apitest.controller.dto.VgDataSaveDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +22,15 @@ public class VgDataService {
     private final VgDataQueryRepository vgDataQueryRepository;
 
     @Transactional
-    public Long save(VgDataSaveDto vgDataSaveDto)
+    public long save(VgDataSaveDto vgDataSaveDto)
     {
         return vgDataRepository.save(vgDataSaveDto.toEntity()).getId();
+    }
+
+    @Transactional
+    public void saveAll(List<VgDataSaveDto> vgDataSaveDtoList)
+    {
+        vgDataRepository.saveAll(vgDataSaveDtoList.stream().map(VgDataSaveDto::toEntity).collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
@@ -47,6 +52,12 @@ public class VgDataService {
         {
             return new VgDataGetDto(entity);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public VgData getVgDatabyNumRoundTourTimeIndex (int vgNumber, int roundNumber, int tournamentIndex, int timeIndex)
+    {
+        return vgDataRepository.findByVgNumberAndRoundNumberAndTournamentIndexAndTimeIndex(vgNumber, roundNumber, tournamentIndex, timeIndex).orElse(null);
     }
 
     @Transactional(readOnly = true)
