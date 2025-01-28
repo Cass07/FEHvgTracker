@@ -147,7 +147,7 @@
                 $('#vg_start_date').val(result.vgStartDate);
                 $('#vg_title').val(result.vgTitle);
                 for (let i = 1; i <= 8; i++) {
-                    update_herodropdown("team1id", result.teamIds[i - 1]);
+                    update_herodropdown("team" + i + "id", result.teamIds[i - 1]);
                 }
             }
             , error: function (result) {
