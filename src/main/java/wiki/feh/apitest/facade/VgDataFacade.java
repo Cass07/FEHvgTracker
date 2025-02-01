@@ -34,8 +34,13 @@ public class VgDataFacade {
         log.info("updateVgData : {}", currentTime);
         VgInfo currentVgInfo = vgInfoService.getLatestVgInfo();
 
-        if (currentVgInfo == null || !currentVgInfo.isValidTime(currentTime)) {
-            log.info("VgInfo Not Exist or Invalid Time : {}", currentTime);
+        if (currentVgInfo == null) {
+            log.info("VgInfo Not Exist : {}", currentTime);
+            return;
+        }
+
+        if (!currentVgInfo.isValidTime(currentTime)) {
+            log.info("VgInfo Invalid Time : vg : {} currentTime : {}", currentVgInfo.getVgNumber(), currentTime);
             return;
         }
 
@@ -44,7 +49,7 @@ public class VgDataFacade {
         int timeDiff = currentVgInfo.getRoundTimeDiff(currentTime, round);
 
         // 현재 vg, round, timeDiff 데이터가 저장되어 있는지 여부 조회
-        if (vgDataService.getVgDatabyNumRoundTourTimeIndex(vgNumber, round, 1, timeDiff) == null) {
+        if (vgDataService.getVgDatabyNumRoundTourTimeIndex(vgNumber, round, 1, timeDiff) != null) {
             log.info("VgData Already Exist : {} {} {}", vgNumber, round, timeDiff);
             return;
         }
