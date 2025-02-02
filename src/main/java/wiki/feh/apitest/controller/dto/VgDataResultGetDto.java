@@ -1,6 +1,5 @@
 package wiki.feh.apitest.controller.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wiki.feh.apitest.domain.vgdata.VgData;
@@ -29,7 +28,6 @@ public class VgDataResultGetDto {
 
     private String currentMul;
 
-    @Builder
     public VgDataResultGetDto(VgData entity) {
         this.id = entity.getId();
         this.vgNumber = entity.getVgNumber();

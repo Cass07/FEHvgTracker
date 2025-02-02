@@ -32,61 +32,58 @@ public class VgDataService {
     }
 
     @Transactional(readOnly = true)
-    public List<VgDataGetDto> getVgDataListbyNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
-        log.debug("getVgDataListbyNumRoundTour test");
-        return vgDataQueryRepository.getVgDataListbyNumRoundTour(vgNumber, roundNumber, tournamentIndex).stream()
+    public List<VgDataGetDto> getVgDataListByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
+        return vgDataQueryRepository.getVgDataListByNumRoundTour(vgNumber, roundNumber, tournamentIndex).stream()
                 .map(VgDataGetDto::new).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public VgDataGetDto getLatestVgDatabyNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
-        VgData entity = vgDataQueryRepository.getLatestVgDatabyNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+    public VgDataGetDto getLatestVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
+        VgData entity = vgDataQueryRepository.getLatestVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
         if (entity == null) {
             return null;
-        } else {
-            return new VgDataGetDto(entity);
         }
+        return new VgDataGetDto(entity);
     }
 
     @Transactional(readOnly = true)
-    public VgData getVgDatabyNumRoundTourTimeIndex(int vgNumber, int roundNumber, int tournamentIndex, int timeIndex) {
+    public VgData getVgDataByNumRoundTourTimeIndex(int vgNumber, int roundNumber, int tournamentIndex, int timeIndex) {
         return vgDataRepository.findByVgNumberAndRoundNumberAndTournamentIndexAndTimeIndex(vgNumber, roundNumber, tournamentIndex, timeIndex).orElse(null);
     }
 
     @Transactional(readOnly = true)
-    public VgDataGetDto getFirstVgDatabyNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
-        VgData entity = vgDataQueryRepository.getfirstVgDatabyNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+    public VgDataGetDto getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
+        VgData entity = vgDataQueryRepository.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
         if (entity == null) {
             return null;
-        } else {
-            return new VgDataGetDto(entity);
         }
+        return new VgDataGetDto(entity);
     }
 
     //초동 데이터 출력용 전체 라운드 5시 데이터
     @Transactional(readOnly = true)
-    public List<VgDataGetDto> getFirstVgDataListbyVgNumber(int vgNumber) {
-        return vgDataQueryRepository.getFirstVgDataListbyVgNumber(vgNumber).stream()
+    public List<VgDataGetDto> getFirstVgDataListByVgNumber(int vgNumber) {
+        return vgDataQueryRepository.getFirstVgDataListByVgNumber(vgNumber).stream()
                 .map(VgDataGetDto::new).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<VgDataResultGetDto> getFirstVgDataResultListbyVgNumber(int vgNumber) {
-        return vgDataQueryRepository.getFirstVgDataListbyVgNumber(vgNumber).stream()
+    public List<VgDataResultGetDto> getFirstVgDataResultListByVgNumber(int vgNumber) {
+        return vgDataQueryRepository.getFirstVgDataListByVgNumber(vgNumber).stream()
                 .map(VgDataResultGetDto::new).collect(Collectors.toList());
     }
 
     //결과값 출력용 전체 라운드 결과 데이터
     @Transactional(readOnly = true)
-    public List<VgDataResultGetDto> getLatestVgDataListbyVgNumber(int vgNumber) {
-        return vgDataQueryRepository.getLatestVgDataListbyVgNumber(vgNumber).stream()
+    public List<VgDataResultGetDto> getLatestVgDataListByVgNumber(int vgNumber) {
+        return vgDataQueryRepository.getLatestVgDataListByVgNumber(vgNumber).stream()
                 .map(VgDataResultGetDto::new).collect(Collectors.toList());
     }
 
     //현재상황값 출력용 특정 라운드 제일 최신시간의 전체데이터
     @Transactional(readOnly = true)
-    public List<VgDataGetDto> getNowtimeVgDataListbyVgNumberRound(int vgNumber, int roundNumber) {
-        return vgDataQueryRepository.getNowtimeVgDataListbyVgNumberRound(vgNumber, roundNumber).stream()
+    public List<VgDataGetDto> getLatestVgDataListByVgNumberRound(int vgNumber, int roundNumber) {
+        return vgDataQueryRepository.getLatestVgDataListByVgNumberRound(vgNumber, roundNumber).stream()
                 .map(VgDataGetDto::new).collect(Collectors.toList());
     }
 

@@ -17,7 +17,7 @@ public class VgInfoApiController {
 
     @GetMapping("/api/v1/vginfo/{id}")
     public VgInfoGetDto get(@PathVariable long id) {
-        return vgInfoService.findbyId(id);
+        return vgInfoService.findById(id);
     }
 
     @GetMapping("/api/v1/vginfo")

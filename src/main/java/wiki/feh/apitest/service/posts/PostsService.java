@@ -63,15 +63,6 @@ public class PostsService {
     }
 
     @Transactional(readOnly = true)
-    public PostsGetDto getById(long id) {
-        Posts entity = postsRepository.findById(id).orElse(null);
-
-        if (entity == null)
-            return null;
-        return new PostsGetDto(entity);
-    }
-
-    @Transactional(readOnly = true)
     public PostsGetWithPicDto getByIdWithPic(long id) {
         List<PostsGetWithPicDto> entity = postsQueryRepository.getPostsWithPicture(id);
         if (!entity.isEmpty()) {

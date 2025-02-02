@@ -37,7 +37,7 @@ public class VgViewFacade {
         if (id == -1) {
             vginfoEntity = vgInfoService.getLatestVgInfoDto();
         } else {
-            vginfoEntity = vgInfoService.findbyId(id);
+            vginfoEntity = vgInfoService.findById(id);
         }
 
         // 조회된 vgInfo가 없다면, 오류 페이지를 출력할 view를 넘겨준다
@@ -51,7 +51,7 @@ public class VgViewFacade {
         int vgNumber = vginfoEntity.getVgNumber();
 
         // 종료된 vg round의 데이터를 조회
-        List<VgDataResultGetDto> resultVgDataList = vgDataService.getLatestVgDataListbyVgNumber(vgNumber);
+        List<VgDataResultGetDto> resultVgDataList = vgDataService.getLatestVgDataListByVgNumber(vgNumber);
         int resultVgDataSize = resultVgDataList.size();
 
         // 조회한 vgData의 수에 따라서, 라운드 값을 역산함
@@ -70,7 +70,7 @@ public class VgViewFacade {
         }
 
         // 현재 상황의 최신 vgData를 받음
-        List<VgDataGetDto> currentVgDataList = vgDataService.getNowtimeVgDataListbyVgNumberRound(vgNumber, round);
+        List<VgDataGetDto> currentVgDataList = vgDataService.getLatestVgDataListByVgNumberRound(vgNumber, round);
 
         if (currentVgDataList.isEmpty()) {
             //아예 시작안햇거나(라운드1), 이전라운드 종료되엇고 현재라운드 시작안햇거나, 모든 라운드 종료됨
@@ -129,7 +129,7 @@ public class VgViewFacade {
         if (id == -1) {
             vginfoEntity = vgInfoService.getLatestVgInfoDto();
         } else {
-            vginfoEntity = vgInfoService.findbyId(id);
+            vginfoEntity = vgInfoService.findById(id);
         }
 
         if (vginfoEntity == null) {
@@ -141,7 +141,7 @@ public class VgViewFacade {
         viewModel.put("header_title", "투표대전 점수 트래커 - 초동 데이터");
 
         int firstVgNumber = vginfoEntity.getVgNumber();
-        List<VgDataResultGetDto> firstVgDataList = vgDataService.getFirstVgDataResultListbyVgNumber(firstVgNumber);
+        List<VgDataResultGetDto> firstVgDataList = vgDataService.getFirstVgDataResultListByVgNumber(firstVgNumber);
         int firstVgDataSize = firstVgDataList.size();
 
         int round = switch (firstVgDataSize) {

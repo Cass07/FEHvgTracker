@@ -26,12 +26,12 @@ public class VgViewController {
 
     @GetMapping("/vg/vgnum/{vgnum}/round/{round}/tournum/{tournum}")
     public String getVgDataDetail(Model model, @PathVariable int vgnum, @PathVariable int round, @PathVariable int tournum) {
-        VgInfoGetDto vginfoEntity = vgInfoService.findbyVgnumber(vgnum);
+        VgInfoGetDto vginfoEntity = vgInfoService.findByVgNumber(vgnum);
         if (vginfoEntity == null) {
             model.addAttribute("errorMessage", "해당 투표대전이 존재하지 않습니다.");
             return "posts-error";
         }
-        VgDataGetDto vgDataGetDtoList = vgDataService.getFirstVgDatabyNumRoundTour(vgnum, round, tournum);
+        VgDataGetDto vgDataGetDtoList = vgDataService.getFirstVgDataByNumRoundTour(vgnum, round, tournum);
         if (vgDataGetDtoList == null) {
             model.addAttribute("errorMessage", "해당 투표대전 라운드가 존재하지 않습니다.");
 

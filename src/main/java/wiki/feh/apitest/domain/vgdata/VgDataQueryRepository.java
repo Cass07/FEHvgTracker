@@ -15,7 +15,7 @@ public class VgDataQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     //특정 vgnumber, roundnumber, tourIndex 로 조회되는 제일 최신의 vgdata
-    public VgData getLatestVgDatabyNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
+    public VgData getLatestVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
     {
         return queryFactory
                 .selectFrom(vgData)
@@ -25,7 +25,7 @@ public class VgDataQueryRepository {
     }
 
     //특정 vgNumber로 조회되는 전체 라운드의 첫번쨰 vgdata 리스트 (초동 데이터 출력용)
-    public List<VgData> getFirstVgDataListbyVgNumber(int vgNumber)
+    public List<VgData> getFirstVgDataListByVgNumber(int vgNumber)
     {
         return queryFactory
                 .selectFrom(vgData)
@@ -35,7 +35,7 @@ public class VgDataQueryRepository {
     }
 
     //특정 vgnumber, roundnumber, tourindex로 조회되는 제일 처음의 vgdata
-    public VgData getfirstVgDatabyNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
+    public VgData getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
     {
         return queryFactory
                 .selectFrom(vgData)
@@ -45,7 +45,7 @@ public class VgDataQueryRepository {
     }
 
     //특정 vgnumber로 조회되는 종료된 라운드의 마지막 vgdata 리스트 (결과표 출력용)
-    public List<VgData> getLatestVgDataListbyVgNumber(int vgNumber)
+    public List<VgData> getLatestVgDataListByVgNumber(int vgNumber)
     {
         return queryFactory
                 .selectFrom(vgData)
@@ -55,7 +55,7 @@ public class VgDataQueryRepository {
     }
 
     //특정 vgnumber, round로 조회되는 제일 최신의 vgdata리스트 4~1개(라운드따라) (현재 상황표 출력용)
-    public List<VgData> getNowtimeVgDataListbyVgNumberRound(int vgNumber, int roundNumber)
+    public List<VgData> getLatestVgDataListByVgNumberRound(int vgNumber, int roundNumber)
     {
         return queryFactory
                 .selectFrom(vgData)
@@ -66,7 +66,7 @@ public class VgDataQueryRepository {
     }
 
     //특정 vgnumber, roundnumber, tourindex로 조회되는 vgdata 리스트
-    public List<VgData> getVgDataListbyNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
+    public List<VgData> getVgDataListByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
     {
         return queryFactory
                 .selectFrom(vgData)

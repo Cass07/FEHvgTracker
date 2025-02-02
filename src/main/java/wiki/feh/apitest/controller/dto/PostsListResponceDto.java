@@ -19,6 +19,6 @@ public class PostsListResponceDto {
         this.title = entity.getTitle();
         this.author = entity.getAuthor();
         this.modifiedDate = entity.getModifiedDate();
-        this.modifiedDateString = this.modifiedDate.format(DateTimeFormatter.ofPattern("MM/dd HH:mm:ss"));
+        this.modifiedDateString = this.modifiedDate != null? this.modifiedDate.format(DateTimeFormatter.ofPattern("MM/dd HH:mm:ss")) : "";
     }
 }

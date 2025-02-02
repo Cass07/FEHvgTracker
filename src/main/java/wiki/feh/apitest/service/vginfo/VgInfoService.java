@@ -20,24 +20,21 @@ public class VgInfoService {
     private final VgInfoQueryRepository vgInfoQueryRepository;
 
     @Transactional(readOnly = true)
-    public VgInfoGetDto findbyId(long id) {
+    public VgInfoGetDto findById(long id) {
         VgInfo entity = vgInfoRepository.findById(id).orElse(null);
-
         if (entity == null) {
             return null;
-        } else {
-            return new VgInfoGetDto(entity);
         }
+        return new VgInfoGetDto(entity);
     }
 
     @Transactional(readOnly = true)
-    public VgInfoGetDto findbyVgnumber(int vgNumber) {
+    public VgInfoGetDto findByVgNumber(int vgNumber) {
         VgInfo entity = vgInfoQueryRepository.findByVgnumber(vgNumber);
         if (entity == null) {
             return null;
-        } else {
-            return new VgInfoGetDto(entity);
         }
+        return new VgInfoGetDto(entity);
     }
 
     @Transactional(readOnly = true)
@@ -45,9 +42,8 @@ public class VgInfoService {
         VgInfo entity = vgInfoQueryRepository.getLatestVgInfo();
         if (entity == null) {
             return null;
-        } else {
-            return new VgInfoGetDto(entity);
         }
+        return new VgInfoGetDto(entity);
     }
 
     @Transactional(readOnly = true)
@@ -82,13 +78,10 @@ public class VgInfoService {
 
         if (entity == null) {
             return -1;
-        } else {
-            entity.update(vgInfoSaveRequestDto.getVgNumber(), vgInfoSaveRequestDto.getVgTitle(), vgInfoSaveRequestDto.getVgStartDate(),
-                    vgInfoSaveRequestDto.getTeam1Id(), vgInfoSaveRequestDto.getTeam2Id(), vgInfoSaveRequestDto.getTeam3Id(), vgInfoSaveRequestDto.getTeam4Id(),
-                    vgInfoSaveRequestDto.getTeam5Id(), vgInfoSaveRequestDto.getTeam6Id(), vgInfoSaveRequestDto.getTeam7Id(), vgInfoSaveRequestDto.getTeam8Id());
-            return id;
         }
+        entity.update(vgInfoSaveRequestDto);
 
+        return id;
     }
 
 }

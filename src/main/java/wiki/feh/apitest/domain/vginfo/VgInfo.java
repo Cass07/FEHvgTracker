@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import wiki.feh.apitest.controller.dto.VgInfoSaveRequestDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -77,6 +78,20 @@ public class VgInfo {
         this.team6Id = team6Id;
         this.team7Id = team7Id;
         this.team8Id = team8Id;
+    }
+
+    public void update(VgInfoSaveRequestDto dto) {
+        this.vgNumber = dto.getVgNumber();
+        this.vgTitle = dto.getVgTitle();
+        this.vgStartDate = dto.getVgStartDate();
+        this.team1Id = dto.getTeam1Id();
+        this.team2Id = dto.getTeam2Id();
+        this.team3Id = dto.getTeam3Id();
+        this.team4Id = dto.getTeam4Id();
+        this.team5Id = dto.getTeam5Id();
+        this.team6Id = dto.getTeam6Id();
+        this.team7Id = dto.getTeam7Id();
+        this.team8Id = dto.getTeam8Id();
     }
 
     /**

@@ -18,32 +18,32 @@ public class VgDataApiController {
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/round/{round}/tournum/{tournum}")
     public List<VgDataGetDto> getAllList(@PathVariable int vgnum, @PathVariable int round, @PathVariable int tournum) {
-        return vgDataService.getVgDataListbyNumRoundTour(vgnum, round, tournum);
+        return vgDataService.getVgDataListByNumRoundTour(vgnum, round, tournum);
     }
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/round/{round}/tournum/{tournum}/first")
     public VgDataGetDto getFirstDto(@PathVariable int vgnum, @PathVariable int round, @PathVariable int tournum) {
-        return vgDataService.getFirstVgDatabyNumRoundTour(vgnum, round, tournum);
+        return vgDataService.getFirstVgDataByNumRoundTour(vgnum, round, tournum);
     }
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/round/{round}/tournum/{tournum}/latest")
     public VgDataGetDto getLatestDto(@PathVariable int vgnum, @PathVariable int round, @PathVariable int tournum) {
-        return vgDataService.getLatestVgDatabyNumRoundTour(vgnum, round, tournum);
+        return vgDataService.getLatestVgDataByNumRoundTour(vgnum, round, tournum);
     }
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/round/{round}/latest")
     public List<VgDataGetDto> getLatestDtoListbyVgnumRound(@PathVariable int vgnum, @PathVariable int round) {
-        return vgDataService.getNowtimeVgDataListbyVgNumberRound(vgnum, round);
+        return vgDataService.getLatestVgDataListByVgNumberRound(vgnum, round);
     }
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/first")
     public List<VgDataGetDto> getFirstDtoListbyVgnum(@PathVariable int vgnum) {
-        return vgDataService.getFirstVgDataListbyVgNumber(vgnum);
+        return vgDataService.getFirstVgDataListByVgNumber(vgnum);
     }
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/result")
     List<VgDataGetDto> getLatestVgDataListbyVgNumber(@PathVariable int vgnum) {
-        return vgDataService.getFirstVgDataListbyVgNumber(vgnum);
+        return vgDataService.getFirstVgDataListByVgNumber(vgnum);
     }
 
 }

@@ -49,7 +49,7 @@ public class VgDataFacade {
         int timeDiff = currentVgInfo.getRoundTimeDiff(currentTime, round);
 
         // 현재 vg, round, timeDiff 데이터가 저장되어 있는지 여부 조회
-        if (vgDataService.getVgDatabyNumRoundTourTimeIndex(vgNumber, round, 1, timeDiff) != null) {
+        if (vgDataService.getVgDataByNumRoundTourTimeIndex(vgNumber, round, 1, timeDiff) != null) {
             log.info("VgData Already Exist : {} {} {}", vgNumber, round, timeDiff);
             return;
         }

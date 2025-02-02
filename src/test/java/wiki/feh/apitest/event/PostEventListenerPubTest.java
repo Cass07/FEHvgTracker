@@ -15,10 +15,10 @@ import static org.mockito.Mockito.verify;
 @ActiveProfiles("test")
 @SpringBootTest
 @RecordApplicationEvents
-class PostEventListnerTest {
+class PostEventListenerPubTest {
 
     @MockBean
-    private PostEventListner postEventListner;
+    private PostEventListener postEventListener;
 
     @Autowired
     private ApplicationEventPublisher testEventPublisher;
@@ -33,7 +33,7 @@ class PostEventListnerTest {
         testEventPublisher.publishEvent(event);
 
         // then
-        verify(postEventListner).postEvent(any());
+        verify(postEventListener).postEvent(any());
     }
 
 }
