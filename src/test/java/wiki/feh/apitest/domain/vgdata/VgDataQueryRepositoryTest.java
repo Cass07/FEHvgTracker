@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import wiki.feh.apitest.global.config.TestQueryDslConfig;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -87,14 +88,14 @@ class VgDataQueryRepositoryTest {
         int tournamentIndex = 1;
 
         // when
-        VgData vgData = vgDataQueryRepository.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+        Optional<VgData> vgData = vgDataQueryRepository.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
 
         // then
-        assertNotNull(vgData);
-        assertEquals(vgNumber, vgData.getVgNumber());
-        assertEquals(roundNumber, vgData.getRoundNumber());
-        assertEquals(tournamentIndex, vgData.getTournamentIndex());
-        assertEquals(1, vgData.getTimeIndex());
+        assertTrue(vgData.isPresent());
+        assertEquals(vgNumber, vgData.get().getVgNumber());
+        assertEquals(roundNumber, vgData.get().getRoundNumber());
+        assertEquals(tournamentIndex, vgData.get().getTournamentIndex());
+        assertEquals(1, vgData.get().getTimeIndex());
     }
 
     @DisplayName("vgNumber, roundNumber, tourIndex로 vgData 조회 - 조회 데이터 없음")
@@ -106,10 +107,10 @@ class VgDataQueryRepositoryTest {
         int tournamentIndex = 2;
 
         // when
-        VgData vgData = vgDataQueryRepository.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+        Optional<VgData> vgData = vgDataQueryRepository.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
 
         // then
-        assertNull(vgData);
+        assertFalse(vgData.isPresent());
     }
 
     @DisplayName("vgNumber로 종료된 라운드의 마지막 vgData 리스트 조회")

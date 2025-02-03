@@ -1,4 +1,4 @@
-package wiki.feh.apitest.global.exception;
+package wiki.feh.apitest.global.exception.view;
 
 public class PostNotOwnedException extends ViewException {
     public PostNotOwnedException() {

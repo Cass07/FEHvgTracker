@@ -4,14 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.domain.vgdata.VgData;
-import wiki.feh.apitest.domain.vgdata.VgDataQueryRepository;
-import wiki.feh.apitest.domain.vgdata.VgDataRepository;
 import wiki.feh.apitest.controller.dto.VgDataGetDto;
 import wiki.feh.apitest.controller.dto.VgDataResultGetDto;
 import wiki.feh.apitest.controller.dto.VgDataSaveDto;
+import wiki.feh.apitest.domain.vgdata.VgData;
+import wiki.feh.apitest.domain.vgdata.VgDataQueryRepository;
+import wiki.feh.apitest.domain.vgdata.VgDataRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -52,12 +53,8 @@ public class VgDataService {
     }
 
     @Transactional(readOnly = true)
-    public VgDataGetDto getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
-        VgData entity = vgDataQueryRepository.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
-        if (entity == null) {
-            return null;
-        }
-        return new VgDataGetDto(entity);
+    public Optional<VgData> getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
+        return vgDataQueryRepository.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
     }
 
     //초동 데이터 출력용 전체 라운드 5시 데이터

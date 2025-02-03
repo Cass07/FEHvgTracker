@@ -1,10 +1,11 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import wiki.feh.apitest.facade.VgDataFacade;
 import wiki.feh.apitest.service.vgdata.VgDataService;
 import wiki.feh.apitest.controller.dto.VgDataGetDto;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class VgDataApiController {
+    private final VgDataFacade vgDataFacade;
     private final VgDataService vgDataService;
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/round/{round}/tournum/{tournum}")
@@ -23,7 +25,7 @@ public class VgDataApiController {
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/round/{round}/tournum/{tournum}/first")
     public VgDataGetDto getFirstDto(@PathVariable int vgnum, @PathVariable int round, @PathVariable int tournum) {
-        return vgDataService.getFirstVgDataByNumRoundTour(vgnum, round, tournum);
+        return vgDataFacade.getFirstVgDataByNumRoundTour(vgnum, round, tournum);
     }
 
     @GetMapping("/api/v1/vgdata/vgnum/{vgnum}/round/{round}/tournum/{tournum}/latest")

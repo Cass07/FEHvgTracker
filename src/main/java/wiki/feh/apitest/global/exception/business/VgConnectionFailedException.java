@@ -1,4 +1,4 @@
-package wiki.feh.apitest.global.exception;
+package wiki.feh.apitest.global.exception.business;
 
 import org.springframework.http.HttpStatus;
 

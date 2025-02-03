@@ -1,4 +1,4 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

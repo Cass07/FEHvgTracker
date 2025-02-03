@@ -30,7 +30,7 @@ class VgInfoQueryRepositoryTest {
         int latestVgNumber = 91;
 
         // when
-        VgInfo vgInfo = vgInfoQueryRepository.getLatestVgInfo();
+        VgInfo vgInfo = vgInfoQueryRepository.getLatestVgInfo().orElse(null);
 
         // then
         assertNotNull(vgInfo);
@@ -39,9 +39,9 @@ class VgInfoQueryRepositoryTest {
 
     @DisplayName("모든 VgInfo 리스트 조회")
     @Test
-    void findAllDecs() {
+    void findAllDesc() {
         // when
-        List<VgInfo> vgInfoList = vgInfoQueryRepository.findAllDecs();
+        List<VgInfo> vgInfoList = vgInfoQueryRepository.findAllDesc();
 
         // then
         assertNotNull(vgInfoList);
@@ -50,12 +50,12 @@ class VgInfoQueryRepositoryTest {
 
     @DisplayName("vgNumber로 VgInfo 조회")
     @Test
-    void findByVgnumber() {
+    void findByVgNumber() {
         // given
         int vgNumber = 91;
 
         // when
-        VgInfo vgInfo = vgInfoQueryRepository.findByVgnumber(vgNumber);
+        VgInfo vgInfo = vgInfoQueryRepository.findByVgNumber(vgNumber);
 
         // then
         assertNotNull(vgInfo);

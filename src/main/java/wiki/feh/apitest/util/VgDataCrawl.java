@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import wiki.feh.apitest.event.PostEvent;
-import wiki.feh.apitest.global.exception.VgConnectionFailedException;
+import wiki.feh.apitest.global.exception.business.VgConnectionFailedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

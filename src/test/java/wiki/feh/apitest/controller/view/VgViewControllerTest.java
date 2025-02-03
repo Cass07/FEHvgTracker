@@ -1,4 +1,4 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.view;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

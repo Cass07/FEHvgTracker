@@ -1,4 +1,4 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.view;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import wiki.feh.apitest.domain.user.Role;
 import wiki.feh.apitest.domain.user.User;
 import wiki.feh.apitest.global.config.auth.dto.SessionUser;
-import wiki.feh.apitest.global.exception.PostNotExistException;
-import wiki.feh.apitest.global.exception.PostNotOwnedException;
+import wiki.feh.apitest.global.exception.view.PostNotExistException;
+import wiki.feh.apitest.global.exception.view.PostNotOwnedException;
 
 import java.nio.charset.StandardCharsets;
 
@@ -88,7 +88,6 @@ public class IndexControllerTest {
     public void Mainpage_no_auth() throws Exception {
         // given
         String url = "/admin/board/posts/1";
-        String title = "로그 게시판";
 
         // when
         ResultActions resultActions = mockMvc.perform(get(url)

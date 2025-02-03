@@ -205,14 +205,14 @@ class VgDataServiceTest {
                 .tournamentIndex(tournamentIndex)
                 .timeIndex(1).build();
 
-        doReturn(data).when(vgDataQueryRepository).getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+        doReturn(Optional.of(data)).when(vgDataQueryRepository).getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
 
         // when
-        VgDataGetDto vgData = vgDataService.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+        Optional<VgData> vgData = vgDataService.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
 
         // then
-        assertNotNull(vgData);
-        assertEquals(vgNumber, vgData.getVgNumber());
+        assertTrue(vgData.isPresent());
+        assertEquals(vgNumber, vgData.get().getVgNumber());
     }
 
     @DisplayName("VgData 최초 데이터 조회 - vgNumber, roundNumber, tournamentIndex - 데이터 없음")
@@ -223,13 +223,13 @@ class VgDataServiceTest {
         int roundNumber = 1;
         int tournamentIndex = 1;
 
-        doReturn(null).when(vgDataQueryRepository).getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+        doReturn(Optional.empty()).when(vgDataQueryRepository).getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
 
         // when
-        VgDataGetDto vgData = vgDataService.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
+        Optional<VgData> vgData = vgDataService.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex);
 
         // then
-        assertNull(vgData);
+        assertFalse(vgData.isPresent());
     }
 
     @DisplayName("전체 라운드 5시 VgData 리스트 조회 - vgNumber")

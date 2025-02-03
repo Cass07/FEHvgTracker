@@ -1,4 +1,4 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

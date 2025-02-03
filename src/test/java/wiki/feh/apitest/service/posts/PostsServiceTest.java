@@ -118,7 +118,7 @@ class PostsServiceTest {
                 .build()));
     }
 
-    @DisplayName("id로 PostsResponce 조회")
+    @DisplayName("id로 Posts 조회")
     @Test
     void findById() {
         // given
@@ -133,15 +133,16 @@ class PostsServiceTest {
         doReturn(Optional.of(entity)).when(postsRepository).findById(findId);
 
         // when
-        PostsResponceDto resultDto = postsService.findById(findId);
+        Optional<Posts> resultDto = postsService.findById(findId);
 
         // then
-        assertEquals(entity.getTitle(), resultDto.getTitle());
-        assertEquals(entity.getContent(), resultDto.getContent());
-        assertEquals(entity.getAuthor(), resultDto.getAuthor());
+        assertTrue(resultDto.isPresent());
+        assertEquals(entity.getTitle(), resultDto.get().getTitle());
+        assertEquals(entity.getContent(), resultDto.get().getContent());
+        assertEquals(entity.getAuthor(), resultDto.get().getAuthor());
     }
 
-    @DisplayName("id로 PostsResponce 조회 - 조회된 Posts 없음")
+    @DisplayName("id로 Posts 조회 - 조회된 Posts 없음")
     @Test
     void findByIdNull() {
         // given
@@ -150,7 +151,10 @@ class PostsServiceTest {
         doReturn(Optional.empty()).when(postsRepository).findById(findId);
 
         // when
-        assertThrows(IllegalArgumentException.class, () -> postsService.findById(findId));
+        Optional<Posts> resultDto = postsService.findById(findId);
+
+        // then
+        assertFalse(resultDto.isPresent());
     }
 
     @DisplayName("page로 모든 PostsListResponce 조회")
@@ -193,29 +197,6 @@ class PostsServiceTest {
         assertEquals(1, result.size());
     }
 
-    @DisplayName("id로 PostsGetDto 조회")
-    @Test
-    void getById() {
-        // given
-        Posts entity = Posts.builder()
-                .title("title")
-                .content("content")
-                .author("author")
-                .build();
-
-        long findId = 1;
-
-        doReturn(Optional.of(entity)).when(postsRepository).findById(findId);
-
-        // when
-        PostsResponceDto resultDto = postsService.findById(findId);
-
-        // then
-        assertEquals(entity.getTitle(), resultDto.getTitle());
-        assertEquals(entity.getContent(), resultDto.getContent());
-        assertEquals(entity.getAuthor(), resultDto.getAuthor());
-    }
-
     @DisplayName("id로 PostsGetWithPicDto 조회")
     @Test
     void getByIdWithPic() {
@@ -236,12 +217,13 @@ class PostsServiceTest {
                 .when(postsQueryRepository).getPostsWithPicture(findId);
 
         // when
-        PostsGetWithPicDto resultDto = postsService.getByIdWithPic(findId);
+        Optional<PostsGetWithPicDto> resultDto = postsService.getByIdWithPic(findId);
 
         // then
-        assertEquals(entity.getTitle(), resultDto.getTitle());
-        assertEquals(entity.getContent(), resultDto.getContent());
-        assertEquals(entity.getAuthor(), resultDto.getAuthor());
+        assertTrue(resultDto.isPresent());
+        assertEquals(entity.getTitle(), resultDto.get().getTitle());
+        assertEquals(entity.getContent(), resultDto.get().getContent());
+        assertEquals(entity.getAuthor(), resultDto.get().getAuthor());
     }
 
     @DisplayName("id조회 PostsGetWithPicDto 없음")
@@ -253,10 +235,10 @@ class PostsServiceTest {
         doReturn(List.of()).when(postsQueryRepository).getPostsWithPicture(findId);
 
         // when
-        PostsGetWithPicDto resultDto = postsService.getByIdWithPic(findId);
+        Optional<PostsGetWithPicDto> resultDto = postsService.getByIdWithPic(findId);
 
         // then
-        assertNull(resultDto);
+        assertFalse(resultDto.isPresent());
     }
 
     @DisplayName("id로 Posts 삭제")

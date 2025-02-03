@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static wiki.feh.apitest.domain.vgdata.QVgData.vgData;
 
@@ -35,13 +36,13 @@ public class VgDataQueryRepository {
     }
 
     //특정 vgnumber, roundnumber, tourindex로 조회되는 제일 처음의 vgdata
-    public VgData getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
+    public Optional<VgData> getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex)
     {
-        return queryFactory
+        return Optional.ofNullable(queryFactory
                 .selectFrom(vgData)
                 .where(vgData.vgNumber.eq(vgNumber), vgData.roundNumber.eq(roundNumber), vgData.tournamentIndex.eq(tournamentIndex))
                 .orderBy(vgData.timeIndex.asc())
-                .fetchFirst();
+                .fetchFirst());
     }
 
     //특정 vgnumber로 조회되는 종료된 라운드의 마지막 vgdata 리스트 (결과표 출력용)

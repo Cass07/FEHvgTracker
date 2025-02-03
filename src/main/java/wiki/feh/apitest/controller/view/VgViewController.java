@@ -1,4 +1,4 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.view;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -8,46 +8,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import wiki.feh.apitest.controller.dto.VgDataGetDto;
 import wiki.feh.apitest.controller.dto.VgInfoGetDto;
 import wiki.feh.apitest.controller.dto.VgViewDto;
-import wiki.feh.apitest.service.vgdata.VgDataService;
-import wiki.feh.apitest.service.vginfo.VgInfoService;
 import wiki.feh.apitest.facade.VgViewFacade;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Controller
 public class VgViewController {
 
-    private final VgDataService vgDataService;
-    private final VgInfoService vgInfoService;
     private final VgViewFacade vgViewFacade;
 
     @GetMapping("/vg/vgnum/{vgnum}/round/{round}/tournum/{tournum}")
     public String getVgDataDetail(Model model, @PathVariable int vgnum, @PathVariable int round, @PathVariable int tournum) {
-        VgInfoGetDto vginfoEntity = vgInfoService.findByVgNumber(vgnum);
-        if (vginfoEntity == null) {
-            model.addAttribute("errorMessage", "해당 투표대전이 존재하지 않습니다.");
-            return "posts-error";
-        }
-        VgDataGetDto vgDataGetDtoList = vgDataService.getFirstVgDataByNumRoundTour(vgnum, round, tournum);
-        if (vgDataGetDtoList == null) {
-            model.addAttribute("errorMessage", "해당 투표대전 라운드가 존재하지 않습니다.");
+        VgInfoGetDto vgInfoEntity = vgViewFacade.getVgInfoById(vgnum);
 
-            return "posts-error";
-        }
-        int team1index = vgDataGetDtoList.getTeam1Index();
-        int team2index = vgDataGetDtoList.getTeam2Index();
+        VgDataGetDto vgDataGetDtoList = vgViewFacade.getFirstVgDataByNumRoundTour(vgnum, round, tournum);
 
-        String team1name = vginfoEntity.getTeamIdbyIndex(team1index).split("#")[1];
-        String team2name = vginfoEntity.getTeamIdbyIndex(team2index).split("#")[1];
+        String team1name = vgInfoEntity.getTeamIdbyIndex(vgDataGetDtoList.getTeam1Index()).split("#")[1];
+        String team2name = vgInfoEntity.getTeamIdbyIndex(vgDataGetDtoList.getTeam2Index()).split("#")[1];
 
         model.addAttribute("header_title", "세부 데이터 : " + vgnum + "회 "
-                + vginfoEntity.getVgTitle() + " " + round + "라운드 : "
+                + vgInfoEntity.getVgTitle() + " " + round + "라운드 : "
                 + team1name + " vs " + team2name);
 
-        model.addAttribute("vg_info", vginfoEntity);
+        model.addAttribute("vg_info", vgInfoEntity);
         model.addAttribute("team1_name", team1name);
         model.addAttribute("team2_name", team2name);
         model.addAttribute("vgNumber", vgnum);
@@ -74,7 +59,7 @@ public class VgViewController {
         Map<String, Object> modelList = getVgPageModel(vgViewDto);
         modelList.forEach(model::addAttribute);
 
-        return !Objects.equals(vgViewDto.getViewString(), "posts-error") ? "vg-data-all" : "posts-error";
+        return "vg-data-all";
     }
 
     @GetMapping(value = {"/vg/past/{id}", "/vg/{id}"})
@@ -84,7 +69,7 @@ public class VgViewController {
         Map<String, Object> modelList = getVgPageModel(vgViewDto);
         modelList.forEach(model::addAttribute);
 
-        return !Objects.equals(vgViewDto.getViewString(), "posts-error") ? "vg-data-all" : "posts-error";
+        return "vg-data-all";
     }
 
     @GetMapping(value = {"/vg/first/", "/vg/first"})

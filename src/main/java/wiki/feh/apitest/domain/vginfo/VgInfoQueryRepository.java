@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static wiki.feh.apitest.domain.vginfo.QVgInfo.vgInfo;
 
@@ -14,15 +15,15 @@ public class VgInfoQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public VgInfo getLatestVgInfo()
+    public Optional<VgInfo> getLatestVgInfo()
     {
-        return queryFactory
+        return Optional.ofNullable(queryFactory
                 .selectFrom(vgInfo)
                 .orderBy(vgInfo.vgNumber.desc())
-                .fetchFirst();
+                .fetchFirst());
     }
 
-    public List<VgInfo> findAllDecs()
+    public List<VgInfo> findAllDesc()
     {
         return queryFactory
                 .selectFrom(vgInfo)
@@ -30,7 +31,7 @@ public class VgInfoQueryRepository {
                 .fetch();
     }
 
-    public VgInfo findByVgnumber(int vgNumber)
+    public VgInfo findByVgNumber(int vgNumber)
     {
         return queryFactory
                 .selectFrom(vgInfo)

@@ -1,25 +1,22 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.view;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import wiki.feh.apitest.controller.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.controller.dto.PostsResponceDto;
+import wiki.feh.apitest.controller.dto.PostsViewDto;
+import wiki.feh.apitest.facade.PostsViewFacade;
 import wiki.feh.apitest.facade.VgDataFacade;
 import wiki.feh.apitest.global.config.auth.LoginUser;
 import wiki.feh.apitest.global.config.auth.dto.SessionUser;
-import wiki.feh.apitest.facade.PostsViewFacade;
-import wiki.feh.apitest.global.exception.PostNotExistException;
-import wiki.feh.apitest.global.exception.PostNotOwnedException;
-import wiki.feh.apitest.service.posts.PostsService;
-import wiki.feh.apitest.controller.dto.*;
+import wiki.feh.apitest.global.exception.view.PostNotOwnedException;
 
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
-
-    private final PostsService postsService;
-
     private final VgDataFacade vgDataFacade;
     private final PostsViewFacade postsViewFacade;
 
@@ -61,11 +58,7 @@ public class IndexController {
     public String posts(@PathVariable long id, Model model) {
         model.addAttribute("header_title", "글 내용 보기");
 
-        PostsGetWithPicDto postsGetWithPicDto = postsService.getByIdWithPic(id);
-
-        if(postsGetWithPicDto == null) {
-            throw new PostNotExistException();
-        }
+        PostsGetWithPicDto postsGetWithPicDto = postsViewFacade.getPostsWithPicById(id);
 
         model.addAttribute("posts", postsGetWithPicDto);
         return "posts";
@@ -83,7 +76,7 @@ public class IndexController {
     public String postsUpdate(@PathVariable long id, Model model, @LoginUser SessionUser user) {
         model.addAttribute("header_title", "글 수정하기");
 
-        PostsResponceDto dto = postsService.findById(id);
+        PostsResponceDto dto = postsViewFacade.findById(id);
         model.addAttribute("posts", dto);
 
         if (!dto.getAuthor().equals(user.getEmail())) {

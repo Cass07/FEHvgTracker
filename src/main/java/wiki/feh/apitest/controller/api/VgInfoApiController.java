@@ -1,8 +1,8 @@
-package wiki.feh.apitest.controller;
+package wiki.feh.apitest.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import wiki.feh.apitest.service.vginfo.VgInfoService;
+import wiki.feh.apitest.facade.VgInfoFacade;
 import wiki.feh.apitest.controller.dto.VgInfoGetDropdownDto;
 import wiki.feh.apitest.controller.dto.VgInfoGetDto;
 import wiki.feh.apitest.controller.dto.VgInfoSaveRequestDto;
@@ -13,26 +13,26 @@ import java.util.List;
 @RestController
 public class VgInfoApiController {
 
-    private final VgInfoService vgInfoService;
+    private final VgInfoFacade vgInfoFacade;
 
     @GetMapping("/api/v1/vginfo/{id}")
     public VgInfoGetDto get(@PathVariable long id) {
-        return vgInfoService.findById(id);
+        return vgInfoFacade.findById(id);
     }
 
     @GetMapping("/api/v1/vginfo")
     public List<VgInfoGetDropdownDto> getAll() {
-        return vgInfoService.findAllDescDropdown();
+        return vgInfoFacade.getVgInfoDropdownList();
     }
 
     @PutMapping("/api/v1/vginfo/{id}")
     public long update(@PathVariable long id, @RequestBody VgInfoSaveRequestDto vgInfoSaveRequestDto) {
-        return vgInfoService.update(id, vgInfoSaveRequestDto);
+        return vgInfoFacade.vgInfoUpdate(id, vgInfoSaveRequestDto);
     }
 
     @PostMapping("/api/v1/vginfo")
     public long save(@RequestBody VgInfoSaveRequestDto vgInfoSaveRequestDto) {
-        return vgInfoService.save(vgInfoSaveRequestDto);
+        return vgInfoFacade.save(vgInfoSaveRequestDto);
     }
 
 }
