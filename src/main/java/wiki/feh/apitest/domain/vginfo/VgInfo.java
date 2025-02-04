@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import wiki.feh.apitest.controller.dto.VgInfoSaveRequestDto;
+import wiki.feh.apitest.dto.VgInfoSaveRequestDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

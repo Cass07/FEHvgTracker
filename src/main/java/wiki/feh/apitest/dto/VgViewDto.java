@@ -1,4 +1,4 @@
-package wiki.feh.apitest.controller.dto;
+package wiki.feh.apitest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

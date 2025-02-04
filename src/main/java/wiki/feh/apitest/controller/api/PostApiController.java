@@ -3,8 +3,8 @@ package wiki.feh.apitest.controller.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import wiki.feh.apitest.service.posts.PostsService;
-import wiki.feh.apitest.controller.dto.PostsSaveRequestDto;
-import wiki.feh.apitest.controller.dto.PostsUpdateRequestDto;
+import wiki.feh.apitest.dto.PostsSaveRequestDto;
+import wiki.feh.apitest.dto.PostsUpdateRequestDto;
 
 @RequiredArgsConstructor
 @RestController

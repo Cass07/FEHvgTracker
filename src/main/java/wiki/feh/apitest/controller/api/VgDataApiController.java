@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import wiki.feh.apitest.facade.VgDataFacade;
 import wiki.feh.apitest.service.vgdata.VgDataService;
-import wiki.feh.apitest.controller.dto.VgDataGetDto;
+import wiki.feh.apitest.dto.VgDataGetDto;
 
 import java.util.List;
 

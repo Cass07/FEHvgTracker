@@ -1,13 +1,12 @@
-package wiki.feh.apitest.controller.dto;
+package wiki.feh.apitest.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wiki.feh.apitest.domain.vgdata.VgData;
 
 @Getter
 @NoArgsConstructor
-public class VgDataGetDto {
+public class VgDataResultGetDto {
 
     private long id;
     private int vgNumber;
@@ -29,8 +28,7 @@ public class VgDataGetDto {
 
     private String currentMul;
 
-    @Builder
-    public VgDataGetDto(VgData entity) {
+    public VgDataResultGetDto(VgData entity) {
         this.id = entity.getId();
         this.vgNumber = entity.getVgNumber();
         this.team1Index = entity.getTeam1Index();
@@ -47,17 +45,10 @@ public class VgDataGetDto {
     }
 
     private int calcLosing() {
-        if (this.floor(Long.parseLong(team1Score) / (double) Long.parseLong(team2Score), 4) > 1.01)
+        if (Long.parseLong(team1Score) > Long.parseLong(team2Score))
             return 2;
-        else if (this.floor(Long.parseLong(team2Score) / (double) Long.parseLong(team1Score), 4) > 1.01)
-            return 1;
         else
-            return 0;
-    }
-
-    private double floor(double number, int dec) {
-        double pow = Math.pow(10, dec);
-        return Math.floor(number * pow) / pow;
+            return 1;
     }
 
     private String calcTeam1Rate() {
@@ -77,4 +68,5 @@ public class VgDataGetDto {
             return "> ×" + this.team1Rate + " >";
         }
     }
+
 }

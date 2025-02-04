@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.controller.dto.PostsGetWithPicDto;
-import wiki.feh.apitest.controller.dto.PostsListResponceDto;
-import wiki.feh.apitest.controller.dto.PostsResponceDto;
-import wiki.feh.apitest.controller.dto.PostsViewDto;
+import wiki.feh.apitest.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.dto.PostsListResponceDto;
+import wiki.feh.apitest.dto.PostsResponceDto;
+import wiki.feh.apitest.dto.PostsViewDto;
 import wiki.feh.apitest.global.exception.view.PostNotExistException;
 import wiki.feh.apitest.service.posts.PostsService;
 

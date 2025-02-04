@@ -11,10 +11,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
-import wiki.feh.apitest.controller.dto.*;
 import wiki.feh.apitest.domain.posts.Posts;
 import wiki.feh.apitest.domain.posts.PostsQueryRepository;
 import wiki.feh.apitest.domain.posts.PostsRepository;
+import wiki.feh.apitest.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.dto.PostsListResponceDto;
+import wiki.feh.apitest.dto.PostsSaveRequestDto;
+import wiki.feh.apitest.dto.PostsUpdateRequestDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -14,8 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import wiki.feh.apitest.controller.dto.PostsSaveRequestDto;
-import wiki.feh.apitest.controller.dto.PostsUpdateRequestDto;
+import wiki.feh.apitest.dto.PostsSaveRequestDto;
+import wiki.feh.apitest.dto.PostsUpdateRequestDto;
 import wiki.feh.apitest.service.posts.PostsService;
 
 import static org.mockito.BDDMockito.*;

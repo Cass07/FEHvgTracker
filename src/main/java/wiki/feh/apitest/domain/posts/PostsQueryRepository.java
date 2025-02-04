@@ -4,7 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import wiki.feh.apitest.controller.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.dto.PostsGetWithPicDto;
 
 import java.util.List;
 

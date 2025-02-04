@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.controller.dto.*;
+import wiki.feh.apitest.dto.*;
 import wiki.feh.apitest.global.exception.view.VgDataIllegalException;
 import wiki.feh.apitest.global.exception.view.VgNotExistException;
 import wiki.feh.apitest.global.exception.view.VgRoundNotExistException;

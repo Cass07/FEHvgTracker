@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import wiki.feh.apitest.controller.dto.VgDataGetDto;
-import wiki.feh.apitest.controller.dto.VgInfoGetDto;
-import wiki.feh.apitest.controller.dto.VgViewDto;
+import wiki.feh.apitest.dto.VgDataGetDto;
+import wiki.feh.apitest.dto.VgInfoGetDto;
+import wiki.feh.apitest.dto.VgViewDto;
 import wiki.feh.apitest.facade.VgViewFacade;
 
 import java.util.HashMap;

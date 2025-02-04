@@ -13,9 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
-import wiki.feh.apitest.controller.dto.TeamDto;
-import wiki.feh.apitest.controller.dto.VgInfoGetDto;
-import wiki.feh.apitest.controller.dto.VgViewDto;
+import wiki.feh.apitest.dto.TeamDto;
+import wiki.feh.apitest.dto.VgInfoGetDto;
+import wiki.feh.apitest.dto.VgViewDto;
 import wiki.feh.apitest.domain.vginfo.VgInfo;
 import wiki.feh.apitest.facade.VgViewFacade;
 

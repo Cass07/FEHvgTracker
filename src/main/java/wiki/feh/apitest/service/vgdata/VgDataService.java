@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.controller.dto.VgDataGetDto;
-import wiki.feh.apitest.controller.dto.VgDataResultGetDto;
-import wiki.feh.apitest.controller.dto.VgDataSaveDto;
+import wiki.feh.apitest.dto.VgDataGetDto;
+import wiki.feh.apitest.dto.VgDataResultGetDto;
+import wiki.feh.apitest.dto.VgDataSaveDto;
 import wiki.feh.apitest.domain.vgdata.VgData;
 import wiki.feh.apitest.domain.vgdata.VgDataQueryRepository;
 import wiki.feh.apitest.domain.vgdata.VgDataRepository;
@@ -48,8 +48,8 @@ public class VgDataService {
     }
 
     @Transactional(readOnly = true)
-    public VgData getVgDataByNumRoundTourTimeIndex(int vgNumber, int roundNumber, int tournamentIndex, int timeIndex) {
-        return vgDataRepository.findByVgNumberAndRoundNumberAndTournamentIndexAndTimeIndex(vgNumber, roundNumber, tournamentIndex, timeIndex).orElse(null);
+    public Optional<VgData> getVgDataByNumRoundTourTimeIndex(int vgNumber, int roundNumber, int tournamentIndex, int timeIndex) {
+        return vgDataRepository.findByVgNumberAndRoundNumberAndTournamentIndexAndTimeIndex(vgNumber, roundNumber, tournamentIndex, timeIndex);
     }
 
     @Transactional(readOnly = true)

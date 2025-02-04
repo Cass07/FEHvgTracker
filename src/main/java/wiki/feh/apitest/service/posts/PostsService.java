@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import wiki.feh.apitest.domain.posts.Posts;
 import wiki.feh.apitest.domain.posts.PostsQueryRepository;
 import wiki.feh.apitest.domain.posts.PostsRepository;
-import wiki.feh.apitest.controller.dto.*;
+import wiki.feh.apitest.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.dto.PostsListResponceDto;
+import wiki.feh.apitest.dto.PostsSaveRequestDto;
+import wiki.feh.apitest.dto.PostsUpdateRequestDto;
 
 import java.util.List;
 import java.util.Optional;

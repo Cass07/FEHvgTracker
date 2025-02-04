@@ -8,9 +8,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
-import wiki.feh.apitest.controller.dto.VgDataGetDto;
-import wiki.feh.apitest.controller.dto.VgDataResultGetDto;
-import wiki.feh.apitest.controller.dto.VgDataSaveDto;
+import wiki.feh.apitest.dto.VgDataGetDto;
+import wiki.feh.apitest.dto.VgDataResultGetDto;
+import wiki.feh.apitest.dto.VgDataSaveDto;
 import wiki.feh.apitest.domain.vgdata.VgData;
 import wiki.feh.apitest.domain.vgdata.VgDataQueryRepository;
 import wiki.feh.apitest.domain.vgdata.VgDataRepository;
@@ -180,11 +180,11 @@ class VgDataServiceTest {
         doReturn(Optional.of(data)).when(vgDataRepository).findByVgNumberAndRoundNumberAndTournamentIndexAndTimeIndex(vgNumber, roundNumber, tournamentIndex, timeIndex);
 
         // when
-        VgData vgData = vgDataService.getVgDataByNumRoundTourTimeIndex(vgNumber, roundNumber, tournamentIndex, timeIndex);
+        Optional<VgData> vgData = vgDataService.getVgDataByNumRoundTourTimeIndex(vgNumber, roundNumber, tournamentIndex, timeIndex);
 
         // then
-        assertNotNull(vgData);
-        assertEquals(vgData.getVgNumber(), vgNumber);
+        assertTrue(vgData.isPresent());
+        assertEquals(vgData.get().getVgNumber(), vgNumber);
     }
 
     @DisplayName("VgData 최초 데이터 조회 - vgNumber, roundNumber, tournamentIndex")

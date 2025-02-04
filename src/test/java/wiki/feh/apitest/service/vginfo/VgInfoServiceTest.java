@@ -114,4 +114,26 @@ class VgInfoServiceTest {
         assertEquals(result.size(), 1);
         assertEquals(result.getFirst().getVgNumber(), vgNumber);
     }
+
+    @DisplayName("VgInfo Save")
+    @Test
+    void save() {
+        // given
+        int vgNumber = 2;
+        LocalDate startDate = LocalDate.of(2025, 1, 1);
+        VgInfo entity = VgInfo.builder()
+                .vgNumber(vgNumber)
+                .vgTitle("title")
+                .vgStartDate(startDate)
+                .build();
+
+        doReturn(entity).when(vgInfoRepository).save(entity);
+
+        // when
+        VgInfo result = vgInfoService.save(entity);
+
+        // then
+        assertNotNull(result);
+        assertEquals(result.getVgNumber(), vgNumber);
+    }
 }
