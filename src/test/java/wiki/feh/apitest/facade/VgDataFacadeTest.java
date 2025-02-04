@@ -52,7 +52,7 @@ class VgDataFacadeTest {
     @Mock
     private Clock clock;
 
-    private final Clock STATIC_CLOCK = Clock.fixed(Instant.parse("2025-01-01T00:00:00Z"), ZoneId.systemDefault());
+    private final Clock STATIC_CLOCK = Clock.fixed(Instant.parse("2025-01-01T00:00:00Z"), ZoneId.of("Asia/Seoul"));
 
     private static final List<Map<String, String>> VGDATALIST_4 = List.of(
             Map.of("team1Score", "1", "team2Score", "2", "team1Index", "1", "team2Index", "2"),
@@ -221,7 +221,7 @@ class VgDataFacadeTest {
     void updateVgData_Save_TimeDiff_48(List<Map<String, String>> vgDataList, int round) {
         // given
         LocalDateTime currentTime = LocalDateTime.of(2025, 1, 3, 16, 1);
-        Clock nowClock48 = Clock.fixed(currentTime.atZone(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
+        Clock nowClock48 = Clock.fixed(currentTime.atZone(ZoneId.of("Asia/Seoul")).toInstant(), ZoneId.of("Asia/Seoul"));
         doReturn(nowClock48.instant()).when(clock).instant();
         doReturn(nowClock48.getZone()).when(clock).getZone();
         LocalDate startTime = LocalDate.now(nowClock48).minusDays(round * 2L);

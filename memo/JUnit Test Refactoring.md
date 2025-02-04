@@ -137,3 +137,11 @@ class Test {
   }
 }
 ```
+
+#### Github action에서 실패하는데??
+* 오류 로그를 보니 timezone 문제임
+  * 로컬환경은 asia/seoul이고, Github action은 UTC임
+* LocalDate.startDate랑 localDateTime을 같이 썼기에 발생하는 문제다
+* 테스트 코드에서 타임존을 명확하게 지정하거나, 타임존 변경에 따라 테스트의 결과가 변경되지 않도록 수정하자
+* 또는 github Action에서의 타임존을 배포 환경과 동일하게 지정
+
