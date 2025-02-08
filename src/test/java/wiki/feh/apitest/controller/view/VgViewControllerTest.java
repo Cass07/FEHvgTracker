@@ -97,7 +97,7 @@ class VgViewControllerTest {
                 .teamList(teamList)
                 .build();
 
-        doReturn(vgViewDto).when(vgViewFacade).getVgMainbyid(-1);
+        doReturn(vgViewDto).when(vgViewFacade).getVgMainByid(-1);
 
         // when
         ResultActions resultActions = mockMvc.perform(get(url)

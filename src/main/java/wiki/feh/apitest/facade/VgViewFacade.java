@@ -38,9 +38,8 @@ public class VgViewFacade {
         ));
     }
 
-
     @Transactional(readOnly = true)
-    public VgViewDto getVgMainbyid(long id) {
+    public VgViewDto getVgMainByid(long id) {
         //vgnum이 -1이라면 제일 최신의 VgInfodata를 조회한다.
         VgInfoGetDto vginfoEntity;
 
@@ -127,13 +126,13 @@ public class VgViewFacade {
                 .round3Vgdata(round3Vgdata)
                 .vgInfoEntity(vginfoEntity)
                 .viewModel(viewModel)
-                .teamList(getTeamDtoListByVginfo(vginfoEntity))
+                .teamList(getTeamDtoListByVgInfo(vginfoEntity))
                 .build();
 
     }
 
     @Transactional(readOnly = true)
-    public VgViewDto getVgFirstbyId(long id) {
+    public VgViewDto getVgFirstById(long id) {
         VgInfoGetDto vginfoEntity;
 
         List<VgDataGetDto> currentRoundVgdata = null;
@@ -201,11 +200,11 @@ public class VgViewFacade {
                 .round3Vgdata(round3Vgdata)
                 .vgInfoEntity(vginfoEntity)
                 .viewModel(viewModel)
-                .teamList(getTeamDtoListByVginfo(vginfoEntity))
+                .teamList(getTeamDtoListByVgInfo(vginfoEntity))
                 .build();
     }
 
-    private List<TeamDto> getTeamDtoListByVginfo(VgInfoGetDto vgInfoEntity) {
+    private List<TeamDto> getTeamDtoListByVgInfo(VgInfoGetDto vgInfoEntity) {
         List<TeamDto> teamDtoList = new ArrayList<>();
         for (int i = 1; i <= 8; i++) {
             teamDtoList.add(new TeamDto(vgInfoEntity.getTeamIdbyIndex(i), i));

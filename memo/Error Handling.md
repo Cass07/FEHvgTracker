@@ -63,3 +63,40 @@ VgInfo vgInfo = vgInfoRepository.findByVgId(vgId).orElseThrow(() -> new IllegalA
 #### 수정
 * Optional<>로 리턴시키고, facade에서 처리한다
 * 테스트 클래스도 수정한다
+
+
+### 하나의 Exception 클래스에 대해서 컨트롤러별로 다른 Handling이 필요한 경우
+
+#### ExceptionHandler produces?
+* https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-exceptionhandler.html#mvc-ann-exceptionhandler-media
+* Accept request header에 따라서 Response를 세분화할 수 있는 기능이라고함 
+* 그런데 일단 Accept request header가 front와 api를 호출할 때 명확하게 달라지지 않는 경우가 있는듯함 (특히 get api에서)
+  * 전역 설정인 것이 문제인가? produces 값에 따른 작동 방식을 찾아봐야 할듯
+* 또한 6.1.16에서는 사용불가하고 Spring 6.2.2로 올려야함
+
+#### Controller 자체에서 핸들러 추가
+* 이렇게 하면 확실하게 컨트롤러 별로 별개의 에러 헨들링을 할 수 있음
+* 단, 전역으로 설정이 불가능하고 controller마다 매 번 추가해줘야할 필요가 있음
+  * ViewController와 RestController에 예외처리 메소드를 작성하고 final처리한 뒤에 이를 상속해서 개별 컨트롤러 객체를 만들기??
+  * 혹은 Annotation을 사용해서 컴파일 시 메소드를 추가해 주기??
+
+```java
+@Controller
+public class testController {
+    
+  @ExceptionHandler(value = {BusinessException.class})
+  public String handleViewException(BusinessException e, Model model) {
+    model.addAttribute("error", e.getMessage());
+    return "error";
+  }
+}
+
+@RestController
+public class testRestController {
+    
+  @ExceptionHandler(value = {BusinessException.class})
+  public ResponseEntity<String> handleApiException(BusinessException e) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+  }
+}
+```

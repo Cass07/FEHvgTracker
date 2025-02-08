@@ -44,7 +44,7 @@ public class VgViewController {
 
     @GetMapping(value = {"/vg/", "/vg"})
     public String vgMain(Model model) {
-        VgViewDto vgViewDto = vgViewFacade.getVgMainbyid(-1);
+        VgViewDto vgViewDto = vgViewFacade.getVgMainByid(-1);
 
         Map<String, Object> modelList = getVgPageModel(vgViewDto);
         modelList.forEach(model::addAttribute);
@@ -54,7 +54,7 @@ public class VgViewController {
 
     @GetMapping(value = {"/vg/past/", "/vg/past"})
     public String vgPastList(Model model) {
-        VgViewDto vgViewDto = vgViewFacade.getVgMainbyid(-1);
+        VgViewDto vgViewDto = vgViewFacade.getVgMainByid(-1);
 
         Map<String, Object> modelList = getVgPageModel(vgViewDto);
         modelList.forEach(model::addAttribute);
@@ -64,7 +64,7 @@ public class VgViewController {
 
     @GetMapping(value = {"/vg/past/{id}", "/vg/{id}"})
     public String vgPastListbyId(Model model, @PathVariable long id) {
-        VgViewDto vgViewDto = vgViewFacade.getVgMainbyid(id);
+        VgViewDto vgViewDto = vgViewFacade.getVgMainByid(id);
 
         Map<String, Object> modelList = getVgPageModel(vgViewDto);
         modelList.forEach(model::addAttribute);
@@ -74,7 +74,7 @@ public class VgViewController {
 
     @GetMapping(value = {"/vg/first/", "/vg/first"})
     public String vgFirst(Model model) {
-        VgViewDto vgViewDto = vgViewFacade.getVgFirstbyId(-1);
+        VgViewDto vgViewDto = vgViewFacade.getVgFirstById(-1);
 
         Map<String, Object> modelList = getVgPageModel(vgViewDto);
         modelList.forEach(model::addAttribute);
