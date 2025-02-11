@@ -62,3 +62,86 @@ final class WithMockUserSecurityContextFactory implements
 
 #### 비동기 이벤트의 단위 테스트?
 * Event publisher를 사용해 로그를 테이블에 저장하는 로직을 생성함
+
+### localDateTime.now()를 사용하는 메소드의 테스트
+* 실행할 때마다 now()의 기댓값이 다르기 때문에 똑같은 환경에서 테스트해도 시간에 따라 테스트가 실패함
+* 모킹할 때 now()값을 베이스로 모킹해도, 시작 시간과 실제 호출 시간에 차이가 있기 때문에 실패할 여지가 있음
+
+#### LocalDateTime.now를 모킹하면 되지 않나?
+1. LocalDateTime.now()를 static mocking하라고 함
+   * 다만 Mockito는 static 메소드를 모킹할 수 없음
+   * 또한 Static mocking은 추천되는 방법이 아닌 듯 함
+2. 그냥 패러미터로 LocalDateTime을 넘김
+   * 단 호출자가 시간을 생성해서 넘겨줘야 하기 때문에, 결국 다른 객체에서 now()를 호출해야 됨
+3. LocalDateTime.now(Clock)을 사용하고, Clock을 모킹해라!
+   * Oracle에서도 이 방법을 사용한다고함
+   * 후술해서 정리
+
+#### Clock을 사용한 LocalDateTime.now() 테스트
+* LocalDateTime.now() 자체에서도 Clock을 사용하여 시간을 가져온다
+
+```java
+public static LocalDateTime now() {
+  return now(Clock.systemDefaultZone());
+}
+
+public static LocalDateTime now(Clock clock) {
+  Objects.requireNonNull(clock, "clock");
+  final Instant now = clock.instant();  // called once
+  ZoneOffset offset = clock.getZone().getRules().getOffset(now);
+  return ofEpochSecond(now.getEpochSecond(), now.getNano(), offset);
+}
+```
+
+* 먼저 Clock을 빈으로 등록하자
+```java
+@Configuration
+public class ClockConfig {
+    @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
+    }
+}
+```
+
+* 그리고 메소드에서 Clock 빈을 주입받고, LocalDateTime.now(clock)을 사용하자
+```java
+public class VgDataFacade {
+    private final Clock clock;
+    
+    public void updateVgData() {
+        LocalDateTime now = LocalDateTime.now(clock);
+        
+    }
+}
+```
+
+* 테스트 코드에서 Clock을 모킹하자
+```java
+class Test {
+  @InjectMocks
+  private VgDataFacade vgDataFacade;
+  
+  @Mock
+  private Clock clock;
+  
+  private static final LocalDateTime NOW = LocalDateTime.of(2021, 1, 1, 0, 0, 0);
+  
+  @Test
+  void test_fixedClock() {
+      Clock fixedClock = Clock.fixed(NOW.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
+      doReturn(fixedClock.instant()).when(clock).instant();
+      doReturn(fixedClock.getZone()).when(clock).getZone();
+      
+      vgDataFacade.updateVgData();
+  }
+}
+```
+
+#### Github action에서 실패하는데??
+* 오류 로그를 보니 timezone 문제임
+  * 로컬환경은 asia/seoul이고, Github action은 UTC임
+* LocalDate.startDate랑 localDateTime을 같이 썼기에 발생하는 문제다
+* 테스트 코드에서 타임존을 명확하게 지정하거나, 타임존 변경에 따라 테스트의 결과가 변경되지 않도록 수정하자
+* 또는 github Action에서의 타임존을 배포 환경과 동일하게 지정
+

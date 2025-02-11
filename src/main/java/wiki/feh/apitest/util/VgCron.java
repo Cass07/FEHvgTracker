@@ -10,7 +10,7 @@ import wiki.feh.apitest.facade.VgDataFacade;
 public class VgCron {
     private final VgDataFacade vgDataFacade;
 
-    @Scheduled(cron = "0 5 * * * *") //* 5 * * * * 매 시 5분, 15분에 실행 (한시간에 한번만 실행할까?)
+    @Scheduled(cron = "0 5 * * * *") // 매 시 5분에 실행
     public void CronVgData(){
         vgDataFacade.updateVgData();
     }

@@ -15,12 +15,12 @@ public class HeroListService {
     private final HeroListRepository heroListRepository;
 
     @Transactional(readOnly = true)
-    public HeroList getbyId(String id) {
+    public HeroList getById(String id) {
         return heroListRepository.findById(id).orElse(null);
     }
 
     @Transactional(readOnly = true)
-    public String getKornamebyJpname(String jpname) {
+    public String getKornameByJpname(String jpname) {
         List<HeroList> entity = heroListRepository.findByJpname(jpname);
 
         if (entity.isEmpty()) {

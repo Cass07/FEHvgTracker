@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.controller.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.dto.PostsGetWithPicDto;
 import wiki.feh.apitest.global.config.TestQueryDslConfig;
 
 import java.util.List;

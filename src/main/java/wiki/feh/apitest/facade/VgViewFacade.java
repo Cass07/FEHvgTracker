@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.controller.dto.*;
-import wiki.feh.apitest.global.exception.VgDataIllegalException;
-import wiki.feh.apitest.global.exception.VgNotExistException;
+import wiki.feh.apitest.dto.*;
+import wiki.feh.apitest.global.exception.view.VgDataIllegalException;
+import wiki.feh.apitest.global.exception.view.VgNotExistException;
+import wiki.feh.apitest.global.exception.view.VgRoundNotExistException;
 import wiki.feh.apitest.service.vgdata.VgDataService;
 import wiki.feh.apitest.service.vginfo.VgInfoService;
 
@@ -24,7 +25,21 @@ public class VgViewFacade {
     private final VgDataService vgDataService;
 
     @Transactional(readOnly = true)
-    public VgViewDto getVgMainbyid(long id) {
+    public VgInfoGetDto getVgInfoById(long id) {
+        return new VgInfoGetDto(vgInfoService.findById(id).orElseThrow(
+                VgNotExistException::new
+        ));
+    }
+
+    @Transactional(readOnly = true)
+    public VgDataGetDto getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
+        return new VgDataGetDto(vgDataService.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex).orElseThrow(
+                VgRoundNotExistException::new
+        ));
+    }
+
+    @Transactional(readOnly = true)
+    public VgViewDto getVgMainByid(long id) {
         //vgnum이 -1이라면 제일 최신의 VgInfodata를 조회한다.
         VgInfoGetDto vginfoEntity;
 
@@ -35,14 +50,13 @@ public class VgViewFacade {
 
         // id가 -1이라면 최신의 vg를, 아니라면 입력받은 vg를 출력한다
         if (id == -1) {
-            vginfoEntity = vgInfoService.getLatestVgInfoDto();
+            vginfoEntity = new VgInfoGetDto(vgInfoService.getLatestVgInfo().orElseThrow(
+                    VgNotExistException::new
+            ));
         } else {
-            vginfoEntity = vgInfoService.findbyId(id);
-        }
-
-        // 조회된 vgInfo가 없다면, 오류 페이지를 출력할 view를 넘겨준다
-        if (vginfoEntity == null) {
-            throw new VgNotExistException();
+            vginfoEntity = new VgInfoGetDto(vgInfoService.findById(id).orElseThrow(
+                    VgNotExistException::new
+            ));
         }
 
         // viewModel에, heroName을 입력한다
@@ -51,7 +65,7 @@ public class VgViewFacade {
         int vgNumber = vginfoEntity.getVgNumber();
 
         // 종료된 vg round의 데이터를 조회
-        List<VgDataResultGetDto> resultVgDataList = vgDataService.getLatestVgDataListbyVgNumber(vgNumber);
+        List<VgDataResultGetDto> resultVgDataList = vgDataService.getLatestVgDataListByVgNumber(vgNumber);
         int resultVgDataSize = resultVgDataList.size();
 
         // 조회한 vgData의 수에 따라서, 라운드 값을 역산함
@@ -70,11 +84,11 @@ public class VgViewFacade {
         }
 
         // 현재 상황의 최신 vgData를 받음
-        List<VgDataGetDto> currentVgDataList = vgDataService.getNowtimeVgDataListbyVgNumberRound(vgNumber, round);
+        List<VgDataGetDto> currentVgDataList = vgDataService.getLatestVgDataListByVgNumberRound(vgNumber, round);
 
         if (currentVgDataList.isEmpty()) {
             //아예 시작안햇거나(라운드1), 이전라운드 종료되엇고 현재라운드 시작안햇거나, 모든 라운드 종료됨
-            if(round == 1) {
+            if (round == 1) {
                 viewModel.put("round1StartNot", "1라운드 대진표");
             }
         } else {
@@ -112,13 +126,13 @@ public class VgViewFacade {
                 .round3Vgdata(round3Vgdata)
                 .vgInfoEntity(vginfoEntity)
                 .viewModel(viewModel)
-                .teamList(getTeamDtoListByVginfo(vginfoEntity))
+                .teamList(getTeamDtoListByVgInfo(vginfoEntity))
                 .build();
 
     }
 
     @Transactional(readOnly = true)
-    public VgViewDto getVgFirstbyId(long id) {
+    public VgViewDto getVgFirstById(long id) {
         VgInfoGetDto vginfoEntity;
 
         List<VgDataGetDto> currentRoundVgdata = null;
@@ -127,13 +141,13 @@ public class VgViewFacade {
         List<VgDataResultGetDto> round3Vgdata = null;
 
         if (id == -1) {
-            vginfoEntity = vgInfoService.getLatestVgInfoDto();
+            vginfoEntity = new VgInfoGetDto(vgInfoService.getLatestVgInfo().orElseThrow(
+                    VgNotExistException::new
+            ));
         } else {
-            vginfoEntity = vgInfoService.findbyId(id);
-        }
-
-        if (vginfoEntity == null) {
-            throw new VgNotExistException();
+            vginfoEntity = new VgInfoGetDto(vgInfoService.findById(id).orElseThrow(
+                    VgNotExistException::new
+            ));
         }
 
         Map<String, String> viewModel = new HashMap<>();
@@ -141,7 +155,7 @@ public class VgViewFacade {
         viewModel.put("header_title", "투표대전 점수 트래커 - 초동 데이터");
 
         int firstVgNumber = vginfoEntity.getVgNumber();
-        List<VgDataResultGetDto> firstVgDataList = vgDataService.getFirstVgDataResultListbyVgNumber(firstVgNumber);
+        List<VgDataResultGetDto> firstVgDataList = vgDataService.getFirstVgDataResultListByVgNumber(firstVgNumber);
         int firstVgDataSize = firstVgDataList.size();
 
         int round = switch (firstVgDataSize) {
@@ -186,11 +200,11 @@ public class VgViewFacade {
                 .round3Vgdata(round3Vgdata)
                 .vgInfoEntity(vginfoEntity)
                 .viewModel(viewModel)
-                .teamList(getTeamDtoListByVginfo(vginfoEntity))
+                .teamList(getTeamDtoListByVgInfo(vginfoEntity))
                 .build();
     }
 
-    private List<TeamDto> getTeamDtoListByVginfo(VgInfoGetDto vgInfoEntity) {
+    private List<TeamDto> getTeamDtoListByVgInfo(VgInfoGetDto vgInfoEntity) {
         List<TeamDto> teamDtoList = new ArrayList<>();
         for (int i = 1; i <= 8; i++) {
             teamDtoList.add(new TeamDto(vgInfoEntity.getTeamIdbyIndex(i), i));

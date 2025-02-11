@@ -4,16 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.controller.dto.PostsSaveRequestDto;
-import wiki.feh.apitest.controller.dto.VgDataSaveDto;
+import wiki.feh.apitest.dto.PostsSaveRequestDto;
+import wiki.feh.apitest.dto.VgDataGetDto;
+import wiki.feh.apitest.dto.VgDataSaveDto;
 import wiki.feh.apitest.domain.vginfo.VgInfo;
-import wiki.feh.apitest.global.exception.VgDataNotExistException;
-import wiki.feh.apitest.global.exception.VgTermException;
+import wiki.feh.apitest.global.exception.business.*;
 import wiki.feh.apitest.service.posts.PostsService;
 import wiki.feh.apitest.service.vgdata.VgDataService;
 import wiki.feh.apitest.service.vginfo.VgInfoService;
 import wiki.feh.apitest.util.VgDataCrawl;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,21 +28,26 @@ public class VgDataFacade {
     private final VgInfoService vgInfoService;
     private final PostsService postsService;
     private final VgDataCrawl vgDataCrawl;
+    private final Clock clock;
+
+    @Transactional(readOnly = true)
+    public VgDataGetDto getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
+        return new VgDataGetDto(vgDataService.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex).orElseThrow(VgRoundDataNotExistException::new));
+    }
 
     @Transactional
     public void updateVgData() {
-        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime currentTime = LocalDateTime.now(clock);
         log.info("updateVgData : {}", currentTime);
-        VgInfo currentVgInfo = vgInfoService.getLatestVgInfo();
-
-        if (currentVgInfo == null) {
-            log.info("VgInfo Not Exist : {}", currentTime);
-            return;
-        }
+        VgInfo currentVgInfo = vgInfoService.getLatestVgInfo().orElseThrow(
+                () -> {
+                    log.info("VgInfo Not Exist : {}", currentTime);
+                    return new VgInfoNotExistException();
+                });
 
         if (!currentVgInfo.isValidTime(currentTime)) {
             log.info("VgInfo Invalid Time : vg : {} currentTime : {}", currentVgInfo.getVgNumber(), currentTime);
-            return;
+            throw new VgInfoInvalidTimeException();
         }
 
         int vgNumber = currentVgInfo.getVgNumber();
@@ -49,17 +55,14 @@ public class VgDataFacade {
         int timeDiff = currentVgInfo.getRoundTimeDiff(currentTime, round);
 
         // 현재 vg, round, timeDiff 데이터가 저장되어 있는지 여부 조회
-        if (vgDataService.getVgDatabyNumRoundTourTimeIndex(vgNumber, round, 1, timeDiff) != null) {
-            log.info("VgData Already Exist : {} {} {}", vgNumber, round, timeDiff);
-            return;
-        }
-        try {
-            vgDataService.saveAll(makeVgData(round, timeDiff, vgNumber));
-            log.info("VgData Save : {} {} {}", vgNumber, round, timeDiff);
-        } catch (VgTermException | VgDataNotExistException e) {
-            log.info(e.getMessage());
-        }
+        vgDataService.getVgDataByNumRoundTourTimeIndex(vgNumber, round, 1, timeDiff).ifPresent(
+                vgData -> {
+                    log.info("VgData Already Exist : {} {} {}", vgNumber, round, timeDiff);
+                    throw new VgDataAlreadyExistException();
+                });
 
+        vgDataService.saveAll(makeVgData(round, timeDiff, vgNumber));
+        log.info("VgData Save : {} {} {}", vgNumber, round, timeDiff);
     }
 
     private List<VgDataSaveDto> makeVgData(int round, int timeDiff, int vgNumber) {

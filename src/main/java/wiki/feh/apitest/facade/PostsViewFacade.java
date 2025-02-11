@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import wiki.feh.apitest.controller.dto.PostsListResponceDto;
-import wiki.feh.apitest.controller.dto.PostsViewDto;
+import wiki.feh.apitest.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.dto.PostsListResponceDto;
+import wiki.feh.apitest.dto.PostsResponceDto;
+import wiki.feh.apitest.dto.PostsViewDto;
+import wiki.feh.apitest.global.exception.view.PostNotExistException;
 import wiki.feh.apitest.service.posts.PostsService;
 
 import java.util.ArrayList;
@@ -18,6 +21,16 @@ import java.util.Map;
 @Component
 public class PostsViewFacade {
     private final PostsService postsService;
+
+    @Transactional(readOnly = true)
+    public PostsGetWithPicDto getPostsWithPicById(long id) {
+        return postsService.getByIdWithPic(id).orElseThrow(PostNotExistException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public PostsResponceDto findById(long id) {
+        return new PostsResponceDto(postsService.findById(id).orElseThrow(PostNotExistException::new));
+    }
 
     @Transactional(readOnly = true)
     public PostsViewDto getPostsListView(int page) {

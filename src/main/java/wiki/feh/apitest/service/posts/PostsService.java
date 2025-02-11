@@ -9,9 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import wiki.feh.apitest.domain.posts.Posts;
 import wiki.feh.apitest.domain.posts.PostsQueryRepository;
 import wiki.feh.apitest.domain.posts.PostsRepository;
-import wiki.feh.apitest.controller.dto.*;
+import wiki.feh.apitest.dto.PostsGetWithPicDto;
+import wiki.feh.apitest.dto.PostsListResponceDto;
+import wiki.feh.apitest.dto.PostsSaveRequestDto;
+import wiki.feh.apitest.dto.PostsUpdateRequestDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -41,12 +45,9 @@ public class PostsService {
         return id;
     }
 
-    @Transactional
-    public PostsResponceDto findById(long id) {
-        Posts entity = postsRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + id));
-
-        return new PostsResponceDto(entity);
+    @Transactional(readOnly = true)
+    public Optional<Posts> findById(long id) {
+        return postsRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -63,22 +64,12 @@ public class PostsService {
     }
 
     @Transactional(readOnly = true)
-    public PostsGetDto getById(long id) {
-        Posts entity = postsRepository.findById(id).orElse(null);
-
-        if (entity == null)
-            return null;
-        return new PostsGetDto(entity);
-    }
-
-    @Transactional(readOnly = true)
-    public PostsGetWithPicDto getByIdWithPic(long id) {
+    public Optional<PostsGetWithPicDto> getByIdWithPic(long id) {
         List<PostsGetWithPicDto> entity = postsQueryRepository.getPostsWithPicture(id);
         if (!entity.isEmpty()) {
-            return entity.getFirst();
-        } else {
-            return null;
+            return Optional.of(entity.getFirst());
         }
+        return Optional.empty();
     }
 
     @Transactional
