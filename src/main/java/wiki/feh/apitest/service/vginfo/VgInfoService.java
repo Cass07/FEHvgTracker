@@ -22,6 +22,11 @@ public class VgInfoService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<VgInfo> findByVgNumber(int vgNumber) {
+        return Optional.ofNullable(vgInfoQueryRepository.findByVgNumber(vgNumber));
+    }
+
+    @Transactional(readOnly = true)
     public Optional<VgInfo> getLatestVgInfo() {
         return vgInfoQueryRepository.getLatestVgInfo();
     }
