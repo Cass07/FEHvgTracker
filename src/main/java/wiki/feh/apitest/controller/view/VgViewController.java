@@ -21,7 +21,7 @@ public class VgViewController {
 
     @GetMapping("/vg/vgnum/{vgnum}/round/{round}/tournum/{tournum}")
     public String getVgDataDetail(Model model, @PathVariable int vgnum, @PathVariable int round, @PathVariable int tournum) {
-        VgInfoGetDto vgInfoEntity = vgViewFacade.getVgInfoById(vgnum);
+        VgInfoGetDto vgInfoEntity = vgViewFacade.getVgInfoByVgNumber(vgnum);
 
         VgDataGetDto vgDataGetDtoList = vgViewFacade.getFirstVgDataByNumRoundTour(vgnum, round, tournum);
 

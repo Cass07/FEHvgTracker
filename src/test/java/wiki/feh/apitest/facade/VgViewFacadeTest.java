@@ -99,6 +99,22 @@ class VgViewFacadeTest {
         assertEquals(VG_INFO.getVgNumber(), vgInfoGetDto.getVgNumber());
     }
 
+    @DisplayName("vgNumber로 VgInfoGetDto를 조회")
+    @Test
+    void getVgInfoByVgNumber() {
+        // given
+        int vgNumber = 1;
+        doReturn(Optional.of(VG_INFO)).when(vgInfoService).findByVgNumber(vgNumber);
+
+        // when
+        VgInfoGetDto vgInfoGetDto = vgViewFacade.getVgInfoByVgNumber(vgNumber);
+
+        // then
+        assertNotNull(vgInfoGetDto);
+        assertEquals(VG_INFO.getVgStartDate(), vgInfoGetDto.getVgStartDate());
+        assertEquals(VG_INFO.getVgNumber(), vgInfoGetDto.getVgNumber());
+    }
+
     @DisplayName("vgNumber, roundNumber, tournamentIndex로 VgDataGetDto를 조회")
     @Test
     void getFirstVgDataByNumRoundTour() {

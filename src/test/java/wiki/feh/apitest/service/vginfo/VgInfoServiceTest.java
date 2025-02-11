@@ -70,6 +70,43 @@ class VgInfoServiceTest {
         assertFalse(result.isPresent());
     }
 
+    @DisplayName("VgInfo 조회 - vgNumber")
+    @Test
+    void findByVgNumber() {
+        // given
+        int vgNumber = 2;
+        LocalDate startDate = LocalDate.of(2025, 1, 1);
+        VgInfo entity = VgInfo.builder()
+                .vgNumber(vgNumber)
+                .vgTitle("title")
+                .vgStartDate(startDate)
+                .build();
+
+        doReturn(entity).when(vgInfoQueryRepository).findByVgNumber(vgNumber);
+
+        // when
+        Optional<VgInfo> result = vgInfoService.findByVgNumber(vgNumber);
+
+        // then
+        assertTrue(result.isPresent());
+        assertEquals(result.get().getVgNumber(), vgNumber);
+    }
+
+    @DisplayName("VgInfo 조회 - vgNumber - 데이터 없음")
+    @Test
+    void findByVgNumberNoData() {
+        // given
+        int vgNumber = 2;
+
+        doReturn(null).when(vgInfoQueryRepository).findByVgNumber(vgNumber);
+
+        // when
+        Optional<VgInfo> result = vgInfoService.findByVgNumber(vgNumber);
+
+        // then
+        assertFalse(result.isPresent());
+    }
+
     @DisplayName("VgInfo 조회 - 최신 데이터 - VgInfo")
     @Test
     void findAllDescDto() {

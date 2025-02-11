@@ -32,6 +32,13 @@ public class VgViewFacade {
     }
 
     @Transactional(readOnly = true)
+    public VgInfoGetDto getVgInfoByVgNumber(int vgNumber) {
+        return new VgInfoGetDto(vgInfoService.findByVgNumber(vgNumber).orElseThrow(
+                VgNotExistException::new
+        ));
+    }
+
+    @Transactional(readOnly = true)
     public VgDataGetDto getFirstVgDataByNumRoundTour(int vgNumber, int roundNumber, int tournamentIndex) {
         return new VgDataGetDto(vgDataService.getFirstVgDataByNumRoundTour(vgNumber, roundNumber, tournamentIndex).orElseThrow(
                 VgRoundNotExistException::new
